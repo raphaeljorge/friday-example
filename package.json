@@ -8,6 +8,7 @@
     "build": "tsc && vite build",
     "preview": "vite preview",
     "lint": "biome check .",
+    "lint:formatter": "biome format --write ./src",
     "format": "biome format . --write",
     "test": "vitest",
     "test:e2e": "playwright test",
@@ -69,8 +70,6 @@
     "workbox-strategies": "^7.3.0"
   },
   "msw": {
-    "workerDirectory": [
-      "public"
-    ]
+    "workerDirectory": ["public"]
   }
 }

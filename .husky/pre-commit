@@ -1,1 +1,1 @@
-npx pnpm biome format --write ./src
+npx pnpm run lint:formatter
