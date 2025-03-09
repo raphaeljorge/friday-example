@@ -1,1 +1,1 @@
-npx pnpm run lint:formatter
+npx pnpm run lint-staged
