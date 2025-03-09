@@ -1,6 +1,6 @@
 import type { Book } from '@/features/books/types';
 
-export type RecommendationSource = 
+export type RecommendationSource =
   | 'reading-history'
   | 'favorite-genres'
   | 'similar-books'

@@ -6,7 +6,14 @@ interface ImageProps extends React.ImgHTMLAttributes<HTMLImageElement> {
   fallback?: string;
 }
 
-export function Image({ src, alt, fallback = '/placeholder.webp', className = '', style = {}, ...props }: ImageProps) {
+export function Image({
+  src,
+  alt,
+  fallback = '/placeholder.webp',
+  className = '',
+  style = {},
+  ...props
+}: ImageProps) {
   const [imageSrc, setImageSrc] = useState(src);
   const [isLoading, setIsLoading] = useState(true);
 

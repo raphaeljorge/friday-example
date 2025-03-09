@@ -20,7 +20,7 @@ describe('Profile', () => {
     } as any);
 
     renderWithProviders(<Profile />, { initialPath: '/profile' });
-    
+
     // The loading skeleton should be visible
     const main = screen.getByRole('main');
     expect(main).toBeInTheDocument();
@@ -39,10 +39,12 @@ describe('Profile', () => {
     } as any);
 
     renderWithProviders(<Profile />, { initialPath: '/profile' });
-    
+
     // The error message should be visible
     await waitFor(() => {
-      const errorElement = screen.getByText('Error loading profile. Please try again later.');
+      const errorElement = screen.getByText(
+        'Error loading profile. Please try again later.'
+      );
       expect(errorElement).toBeInTheDocument();
       expect(errorElement).toHaveClass('text-red-600');
     });
@@ -75,7 +77,7 @@ describe('Profile', () => {
     } as any);
 
     renderWithProviders(<Profile />, { initialPath: '/profile' });
-    
+
     // Wait for the profile to be rendered
     await waitFor(() => {
       expect(screen.getByText(mockUser.name)).toBeInTheDocument();
@@ -83,20 +85,24 @@ describe('Profile', () => {
 
     // Check user info is displayed
     expect(screen.getByText(mockUser.email)).toBeInTheDocument();
-    
+
     // Check preferences section
     expect(screen.getByText('Preferences')).toBeInTheDocument();
-    
+
     // Check favorite categories
     expect(screen.getByText('Favorite Categories')).toBeInTheDocument();
-    mockUser.preferences.favoriteCategories.forEach(category => {
+    mockUser.preferences.favoriteCategories.forEach((category) => {
       expect(screen.getByText(category)).toBeInTheDocument();
     });
-    
+
     // Check notification settings
     expect(screen.getByText('Notification Settings')).toBeInTheDocument();
-    const emailCheckbox = screen.getByLabelText('Email notifications') as HTMLInputElement;
-    const pushCheckbox = screen.getByLabelText('Push notifications') as HTMLInputElement;
+    const emailCheckbox = screen.getByLabelText(
+      'Email notifications'
+    ) as HTMLInputElement;
+    const pushCheckbox = screen.getByLabelText(
+      'Push notifications'
+    ) as HTMLInputElement;
     expect(emailCheckbox.checked).toBe(true);
     expect(pushCheckbox.checked).toBe(false);
   });

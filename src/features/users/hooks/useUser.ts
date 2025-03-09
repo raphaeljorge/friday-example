@@ -1,5 +1,9 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { getUserProfile, updateUserProfile, getReadingHistory } from '../api/users';
+import {
+  getUserProfile,
+  updateUserProfile,
+  getReadingHistory,
+} from '../api/users';
 
 const userKeys = {
   all: ['user'] as const,

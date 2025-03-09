@@ -6,7 +6,11 @@ interface UserProfileProps {
   onUpdateProfile: (user: Partial<User>) => void;
 }
 
-export function UserProfile({ user, isLoading, onUpdateProfile }: UserProfileProps) {
+export function UserProfile({
+  user,
+  isLoading,
+  onUpdateProfile,
+}: UserProfileProps) {
   if (isLoading) {
     return (
       <div className="space-y-6" data-testid="loading-skeleton">
@@ -40,8 +44,12 @@ export function UserProfile({ user, isLoading, onUpdateProfile }: UserProfilePro
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="text-2xl font-bold" data-testid="user-name">{user.name}</h1>
-        <p className="text-gray-600" data-testid="user-email">{user.email}</p>
+        <h1 className="text-2xl font-bold" data-testid="user-name">
+          {user.name}
+        </h1>
+        <p className="text-gray-600" data-testid="user-email">
+          {user.email}
+        </p>
       </div>
 
       <div className="space-y-4">
@@ -83,7 +91,9 @@ export function UserProfile({ user, isLoading, onUpdateProfile }: UserProfilePro
                 }
                 id="email-notifications"
               />
-              <span className="ml-2 text-sm text-gray-600">Email notifications</span>
+              <span className="ml-2 text-sm text-gray-600">
+                Email notifications
+              </span>
             </label>
 
             <label htmlFor="push-notifications" className="flex items-center">
@@ -104,7 +114,9 @@ export function UserProfile({ user, isLoading, onUpdateProfile }: UserProfilePro
                 }
                 id="push-notifications"
               />
-              <span className="ml-2 text-sm text-gray-600">Push notifications</span>
+              <span className="ml-2 text-sm text-gray-600">
+                Push notifications
+              </span>
             </label>
           </div>
         </div>

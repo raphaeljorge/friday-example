@@ -31,7 +31,7 @@ const mockGroups: RecommendationGroup[] = [
   {
     source: 'reading-history',
     title: 'Based on Your Reading History',
-    description: 'Books similar to ones you\'ve read',
+    description: "Books similar to ones you've read",
     recommendations: [
       {
         id: '1',
@@ -72,11 +72,11 @@ describe('Recommendations', () => {
 
   it('renders loading state', () => {
     renderWithProviders(
-      <Recommendations 
-        groups={[]} 
-        isLoading={true} 
-        onDismiss={mockOnDismiss} 
-        onRefresh={mockOnRefresh} 
+      <Recommendations
+        groups={[]}
+        isLoading={true}
+        onDismiss={mockOnDismiss}
+        onRefresh={mockOnRefresh}
       />
     );
 
@@ -87,11 +87,11 @@ describe('Recommendations', () => {
 
   it('renders recommendations and preferences', () => {
     renderWithProviders(
-      <Recommendations 
-        groups={mockGroups} 
-        isLoading={false} 
-        onDismiss={mockOnDismiss} 
-        onRefresh={mockOnRefresh} 
+      <Recommendations
+        groups={mockGroups}
+        isLoading={false}
+        onDismiss={mockOnDismiss}
+        onRefresh={mockOnRefresh}
       />
     );
 
@@ -102,32 +102,40 @@ describe('Recommendations', () => {
     expect(screen.getByText('Minimum Score')).toBeInTheDocument();
 
     // Check recommendation group
-    expect(screen.getByText('Based on Your Reading History')).toBeInTheDocument();
-    expect(screen.getByText('Books similar to ones you\'ve read')).toBeInTheDocument();
+    expect(
+      screen.getByText('Based on Your Reading History')
+    ).toBeInTheDocument();
+    expect(
+      screen.getByText("Books similar to ones you've read")
+    ).toBeInTheDocument();
     expect(screen.getByText('Test Book')).toBeInTheDocument();
     expect(screen.getByText('Score: 85%')).toBeInTheDocument();
   });
 
   it('renders no recommendations message when empty', () => {
     renderWithProviders(
-      <Recommendations 
-        groups={[]} 
-        isLoading={false} 
-        onDismiss={mockOnDismiss} 
-        onRefresh={mockOnRefresh} 
+      <Recommendations
+        groups={[]}
+        isLoading={false}
+        onDismiss={mockOnDismiss}
+        onRefresh={mockOnRefresh}
       />
     );
 
-    expect(screen.getByText('No recommendations available. Try adjusting your preferences or refreshing.')).toBeInTheDocument();
+    expect(
+      screen.getByText(
+        'No recommendations available. Try adjusting your preferences or refreshing.'
+      )
+    ).toBeInTheDocument();
   });
 
   it('handles refresh button click', () => {
     renderWithProviders(
-      <Recommendations 
-        groups={mockGroups} 
-        isLoading={false} 
-        onDismiss={mockOnDismiss} 
-        onRefresh={mockOnRefresh} 
+      <Recommendations
+        groups={mockGroups}
+        isLoading={false}
+        onDismiss={mockOnDismiss}
+        onRefresh={mockOnRefresh}
       />
     );
 
@@ -137,16 +145,18 @@ describe('Recommendations', () => {
 
   it('handles source toggle', () => {
     renderWithProviders(
-      <Recommendations 
-        groups={mockGroups} 
-        isLoading={false} 
-        onDismiss={mockOnDismiss} 
-        onRefresh={mockOnRefresh} 
+      <Recommendations
+        groups={mockGroups}
+        isLoading={false}
+        onDismiss={mockOnDismiss}
+        onRefresh={mockOnRefresh}
       />
     );
 
     fireEvent.click(screen.getByText('Reading History'));
-    expect(mockPreferences.toggleSource).toHaveBeenCalledWith('reading-history');
+    expect(mockPreferences.toggleSource).toHaveBeenCalledWith(
+      'reading-history'
+    );
   });
 
   it('handles recommendation dismissal', () => {
@@ -155,11 +165,11 @@ describe('Recommendations', () => {
       .mockImplementationOnce(() => 'Not my type of book');
 
     renderWithProviders(
-      <Recommendations 
-        groups={mockGroups} 
-        isLoading={false} 
-        onDismiss={mockOnDismiss} 
-        onRefresh={mockOnRefresh} 
+      <Recommendations
+        groups={mockGroups}
+        isLoading={false}
+        onDismiss={mockOnDismiss}
+        onRefresh={mockOnRefresh}
       />
     );
 
@@ -168,7 +178,7 @@ describe('Recommendations', () => {
 
     expect(mockOnDismiss).toHaveBeenCalledWith('1', {
       reason: 'not-interested',
-      note: 'Not my type of book'
+      note: 'Not my type of book',
     });
   });
 });

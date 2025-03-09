@@ -3,7 +3,11 @@ import React from 'react';
 import { screen } from '@testing-library/react';
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import Reservations from './index';
-import { useReservations, useCancelReservation, useUpdateReservation } from '../../hooks/useReservations';
+import {
+  useReservations,
+  useCancelReservation,
+  useUpdateReservation,
+} from '../../hooks/useReservations';
 import { renderWithProviders } from '@/test/utils';
 import type { UseQueryResult } from '@tanstack/react-query';
 import type { ReservationsResponse, Reservation } from '../../types';
@@ -52,7 +56,7 @@ describe('Reservations', () => {
       isInitialLoading: true,
       isPaused: false,
       refetch: vi.fn(),
-      promise: Promise.resolve(undefined)
+      promise: Promise.resolve(undefined),
     } as unknown as UseQueryResult<ReservationsResponse, Error>);
 
     renderWithProviders(<Reservations />);
@@ -90,11 +94,13 @@ describe('Reservations', () => {
       isInitialLoading: false,
       isPaused: false,
       refetch: vi.fn(),
-      promise: errorPromise
+      promise: errorPromise,
     } as unknown as UseQueryResult<ReservationsResponse, Error>);
 
     renderWithProviders(<Reservations />);
-    expect(screen.getByText('Error loading reservations. Please try again later.')).toBeInTheDocument();
+    expect(
+      screen.getByText('Error loading reservations. Please try again later.')
+    ).toBeInTheDocument();
   });
 
   it('renders reservations when data is available', () => {
@@ -103,8 +109,8 @@ describe('Reservations', () => {
       meta: {
         total: 0,
         waitlisted: 0,
-        overdue: 0
-      }
+        overdue: 0,
+      },
     };
 
     vi.mocked(useReservations).mockReturnValue({
@@ -132,7 +138,7 @@ describe('Reservations', () => {
       isInitialLoading: false,
       isPaused: false,
       refetch: vi.fn(),
-      promise: Promise.resolve(emptyResponse)
+      promise: Promise.resolve(emptyResponse),
     } as unknown as UseQueryResult<ReservationsResponse, Error>);
 
     renderWithProviders(<Reservations />);
@@ -151,7 +157,7 @@ describe('Reservations', () => {
       pickupDate: '2024-01-02',
       returnDate: '2024-01-03',
       notifications: [],
-      history: []
+      history: [],
     };
 
     const mockResponse: ReservationsResponse = {
@@ -159,8 +165,8 @@ describe('Reservations', () => {
       meta: {
         total: 1,
         waitlisted: 0,
-        overdue: 0
-      }
+        overdue: 0,
+      },
     };
 
     vi.mocked(useReservations).mockReturnValue({
@@ -188,7 +194,7 @@ describe('Reservations', () => {
       isInitialLoading: false,
       isPaused: false,
       refetch: vi.fn(),
-      promise: Promise.resolve(mockResponse)
+      promise: Promise.resolve(mockResponse),
     } as unknown as UseQueryResult<ReservationsResponse, Error>);
 
     renderWithProviders(<Reservations />);

@@ -1,4 +1,9 @@
-import { useShelf, useUpdateShelf, useUpdateBookInShelf, useRemoveBookFromShelf } from '../../hooks/useShelf';
+import {
+  useShelf,
+  useUpdateShelf,
+  useUpdateBookInShelf,
+  useRemoveBookFromShelf,
+} from '../../hooks/useShelf';
 import { ShelfView } from './ShelfView';
 import type { ShelfBookStatus } from '../../types';
 
@@ -41,13 +46,15 @@ export function ShelfViewContainer({ shelfId }: ShelfViewContainerProps) {
 
   return (
     <ShelfView
-      shelf={data?.data ?? {
-        id: '',
-        name: '',
-        books: [],
-        createdAt: '',
-        updatedAt: '',
-      }}
+      shelf={
+        data?.data ?? {
+          id: '',
+          name: '',
+          books: [],
+          createdAt: '',
+          updatedAt: '',
+        }
+      }
       isLoading={isLoading}
       onUpdateBookStatus={handleUpdateBookStatus}
       onRemoveBook={handleRemoveBook}

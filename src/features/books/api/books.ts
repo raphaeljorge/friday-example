@@ -1,5 +1,5 @@
-import { useQuery } from '@tanstack/react-query'
-import axios from 'axios'
+import { useQuery } from '@tanstack/react-query';
+import axios from 'axios';
 import type {
   BooksResponse,
   BookResponse,
@@ -7,38 +7,42 @@ import type {
   SearchBooksResponse,
   CategoriesResponse,
   TagsResponse,
-} from '../types'
+} from '../types';
 
 const api = axios.create({
-  baseURL: '/api'
-})
+  baseURL: '/api',
+});
 
 export const bookKeys = {
   all: ['books'] as const,
   lists: () => [...bookKeys.all, 'list'] as const,
-  list: (filters: Record<string, unknown>) => [...bookKeys.lists(), filters] as const,
+  list: (filters: Record<string, unknown>) =>
+    [...bookKeys.lists(), filters] as const,
   details: () => [...bookKeys.all, 'detail'] as const,
   detail: (id: string) => [...bookKeys.details(), id] as const,
   search: () => [...bookKeys.all, 'search'] as const,
-  searchResults: (params: SearchBooksParams) => [...bookKeys.search(), params] as const,
+  searchResults: (params: SearchBooksParams) =>
+    [...bookKeys.search(), params] as const,
   categories: () => [...bookKeys.all, 'categories'] as const,
-  tags: () => [...bookKeys.all, 'tags'] as const
-}
+  tags: () => [...bookKeys.all, 'tags'] as const,
+};
 
 export const getBooks = async (params?: {
-  page?: number
-  limit?: number
+  page?: number;
+  limit?: number;
 }): Promise<BooksResponse> => {
-  const { data } = await api.get('/books', { params })
-  return data
-}
+  const { data } = await api.get('/books', { params });
+  return data;
+};
 
 export const getBook = async (id: string): Promise<BookResponse> => {
-  const { data } = await api.get(`/books/${id}`)
-  return data
-}
+  const { data } = await api.get(`/books/${id}`);
+  return data;
+};
 
-export const searchBooks = async (params: SearchBooksParams): Promise<SearchBooksResponse> => {
+export const searchBooks = async (
+  params: SearchBooksParams
+): Promise<SearchBooksResponse> => {
   // Format date range for API
   const formattedParams = {
     ...params,
@@ -47,37 +51,37 @@ export const searchBooks = async (params: SearchBooksParams): Promise<SearchBook
       to: params.publishedDate.to,
     },
     tags: params.tags?.join(','),
-  }
+  };
 
-  const { data } = await api.get('/books/search', { params: formattedParams })
-  return data
-}
+  const { data } = await api.get('/books/search', { params: formattedParams });
+  return data;
+};
 
 export const getCategories = async (): Promise<CategoriesResponse> => {
-  const { data } = await api.get('/books/categories')
-  return data
-}
+  const { data } = await api.get('/books/categories');
+  return data;
+};
 
 export const getTags = async (): Promise<TagsResponse> => {
-  const { data } = await api.get('/books/tags')
-  return data
-}
+  const { data } = await api.get('/books/tags');
+  return data;
+};
 
 export const useBooks = (params?: { page?: number; limit?: number }) => {
   return useQuery({
     queryKey: bookKeys.list(params ?? {}),
     queryFn: () => getBooks(params),
     staleTime: 1000 * 60 * 5, // 5 minutes
-  })
-}
+  });
+};
 
 export const useBook = (id: string) => {
   return useQuery({
     queryKey: bookKeys.detail(id),
     queryFn: () => getBook(id),
     staleTime: 1000 * 60 * 5, // 5 minutes
-  })
-}
+  });
+};
 
 export const useSearchBooks = (params: SearchBooksParams) => {
   return useQuery({
@@ -92,21 +96,21 @@ export const useSearchBooks = (params: SearchBooksParams) => {
       params.publishedDate ||
       params.rating
     ),
-  })
-}
+  });
+};
 
 export const useCategories = () => {
   return useQuery({
     queryKey: bookKeys.categories(),
     queryFn: getCategories,
     staleTime: 1000 * 60 * 60, // 1 hour
-  })
-}
+  });
+};
 
 export const useTags = () => {
   return useQuery({
     queryKey: bookKeys.tags(),
     queryFn: getTags,
     staleTime: 1000 * 60 * 60, // 1 hour
-  })
-}
+  });
+};

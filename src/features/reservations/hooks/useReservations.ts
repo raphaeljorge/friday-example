@@ -20,11 +20,13 @@ import type { Reservation, UpdateReservationRequest } from '../types';
 const reservationKeys = {
   all: ['reservations'] as const,
   lists: () => [...reservationKeys.all, 'list'] as const,
-  list: (filters: Record<string, unknown>) => [...reservationKeys.lists(), filters] as const,
+  list: (filters: Record<string, unknown>) =>
+    [...reservationKeys.lists(), filters] as const,
   details: () => [...reservationKeys.all, 'detail'] as const,
   detail: (id: string) => [...reservationKeys.details(), id] as const,
   history: (id: string) => [...reservationKeys.detail(id), 'history'] as const,
-  waitlist: (bookId: string) => [...reservationKeys.all, 'waitlist', bookId] as const,
+  waitlist: (bookId: string) =>
+    [...reservationKeys.all, 'waitlist', bookId] as const,
   overdue: () => [...reservationKeys.all, 'overdue'] as const,
 };
 
@@ -108,7 +110,9 @@ export function useJoinWaitlist() {
   return useMutation({
     mutationFn: joinWaitlist,
     onSuccess: (_, bookId) => {
-      queryClient.invalidateQueries({ queryKey: reservationKeys.waitlist(bookId) });
+      queryClient.invalidateQueries({
+        queryKey: reservationKeys.waitlist(bookId),
+      });
     },
   });
 }
@@ -119,7 +123,9 @@ export function useLeaveWaitlist() {
   return useMutation({
     mutationFn: leaveWaitlist,
     onSuccess: (_, bookId) => {
-      queryClient.invalidateQueries({ queryKey: reservationKeys.waitlist(bookId) });
+      queryClient.invalidateQueries({
+        queryKey: reservationKeys.waitlist(bookId),
+      });
     },
   });
 }
@@ -165,7 +171,10 @@ export function useExtendReservation() {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: ({ id, newReturnDate }: { id: string; newReturnDate: string }) =>
+    mutationFn: ({
+      id,
+      newReturnDate,
+    }: { id: string; newReturnDate: string }) =>
       extendReservation(id, newReturnDate),
     onSuccess: (_, { id }) => {
       queryClient.invalidateQueries({ queryKey: reservationKeys.detail(id) });

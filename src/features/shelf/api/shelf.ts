@@ -1,5 +1,10 @@
 import { apiClient } from '@/lib/api/client';
-import type { ShelfResponse, SingleShelfResponse, Shelf, ShelfBook } from '../types';
+import type {
+  ShelfResponse,
+  SingleShelfResponse,
+  Shelf,
+  ShelfBook,
+} from '../types';
 
 export async function getShelves(): Promise<ShelfResponse> {
   const response = await apiClient.get<ShelfResponse>('/shelves');
@@ -11,7 +16,9 @@ export async function getShelf(id: string): Promise<SingleShelfResponse> {
   return response.data;
 }
 
-export async function createShelf(shelf: Pick<Shelf, 'name' | 'description'>): Promise<SingleShelfResponse> {
+export async function createShelf(
+  shelf: Pick<Shelf, 'name' | 'description'>
+): Promise<SingleShelfResponse> {
   const response = await apiClient.post<SingleShelfResponse>('/shelves', shelf);
   return response.data;
 }
@@ -20,7 +27,10 @@ export async function updateShelf(
   id: string,
   shelf: Pick<Shelf, 'name' | 'description'>
 ): Promise<SingleShelfResponse> {
-  const response = await apiClient.put<SingleShelfResponse>(`/shelves/${id}`, shelf);
+  const response = await apiClient.put<SingleShelfResponse>(
+    `/shelves/${id}`,
+    shelf
+  );
   return response.data;
 }
 
@@ -52,6 +62,9 @@ export async function updateBookInShelf(
   return response.data;
 }
 
-export async function removeBookFromShelf(shelfId: string, bookId: string): Promise<void> {
+export async function removeBookFromShelf(
+  shelfId: string,
+  bookId: string
+): Promise<void> {
   await apiClient.delete(`/shelves/${shelfId}/books/${bookId}`);
 }

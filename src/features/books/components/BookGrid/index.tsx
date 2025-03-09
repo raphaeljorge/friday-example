@@ -1,9 +1,9 @@
-import type { Book } from '../../types'
-import { BookCard } from '../BookCard'
+import type { Book } from '../../types';
+import { BookCard } from '../BookCard';
 
 interface BookGridProps {
-  books: Book[]
-  isLoading?: boolean
+  books: Book[];
+  isLoading?: boolean;
 }
 
 export function BookGrid({ books, isLoading }: BookGridProps) {
@@ -16,24 +16,24 @@ export function BookGrid({ books, isLoading }: BookGridProps) {
             data-testid="loading-skeleton"
             className="bg-white rounded-lg shadow-sm"
           >
-            <div 
-              role="presentation" 
-              className="aspect-[2/3] bg-gray-200 rounded-t-lg animate-pulse" 
+            <div
+              role="presentation"
+              className="aspect-[2/3] bg-gray-200 rounded-t-lg animate-pulse"
             />
             <div className="p-4 space-y-2">
-              <div 
-                data-testid="skeleton-title" 
-                className="h-4 bg-gray-200 rounded animate-pulse" 
+              <div
+                data-testid="skeleton-title"
+                className="h-4 bg-gray-200 rounded animate-pulse"
               />
-              <div 
-                data-testid="skeleton-author" 
-                className="h-3 bg-gray-200 rounded animate-pulse w-2/3" 
+              <div
+                data-testid="skeleton-author"
+                className="h-3 bg-gray-200 rounded animate-pulse w-2/3"
               />
             </div>
           </div>
         ))}
       </div>
-    )
+    );
   }
 
   if (!books?.length) {
@@ -44,14 +44,14 @@ export function BookGrid({ books, isLoading }: BookGridProps) {
           Try adjusting your search or filters
         </p>
       </div>
-    )
+    );
   }
 
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-      {books.map(book => (
+      {books.map((book) => (
         <BookCard key={book.id} book={book} />
       ))}
     </div>
-  )
+  );
 }

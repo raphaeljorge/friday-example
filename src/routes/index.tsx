@@ -1,7 +1,7 @@
-import { createFileRoute } from '@tanstack/react-router'
-import { lazy, Suspense } from 'react'
+import { createFileRoute } from '@tanstack/react-router';
+import { lazy, Suspense } from 'react';
 
-const Books = lazy(() => import('@/features/books/components/Books'))
+const Books = lazy(() => import('@/features/books/components/Books'));
 
 const LoadingFallback = () => (
   <div className="animate-pulse space-y-4">
@@ -12,12 +12,12 @@ const LoadingFallback = () => (
       <div className="h-24 bg-gray-200 rounded"></div>
     </div>
   </div>
-)
+);
 
 export const Route = createFileRoute('/')({
   component: () => (
     <Suspense fallback={<LoadingFallback />}>
       <Books />
     </Suspense>
-  )
-})
+  ),
+});

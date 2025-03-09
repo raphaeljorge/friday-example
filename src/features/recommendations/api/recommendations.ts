@@ -8,12 +8,17 @@ import type {
 } from '../types';
 
 export async function getRecommendations(): Promise<RecommendationsResponse> {
-  const response = await apiClient.get<RecommendationsResponse>('/recommendations');
+  const response =
+    await apiClient.get<RecommendationsResponse>('/recommendations');
   return response.data;
 }
 
-export async function getSimilarBooks(bookId: string): Promise<SimilarBooksResponse> {
-  const response = await apiClient.get<SimilarBooksResponse>(`/books/${bookId}/similar`);
+export async function getSimilarBooks(
+  bookId: string
+): Promise<SimilarBooksResponse> {
+  const response = await apiClient.get<SimilarBooksResponse>(
+    `/books/${bookId}/similar`
+  );
   return response.data;
 }
 
@@ -42,21 +47,29 @@ export async function dismissRecommendation(
 }
 
 export async function refreshRecommendations(): Promise<RecommendationsResponse> {
-  const response = await apiClient.post<RecommendationsResponse>('/recommendations/refresh');
+  const response = await apiClient.post<RecommendationsResponse>(
+    '/recommendations/refresh'
+  );
   return response.data;
 }
 
 export async function getTrendingBooks(): Promise<SimilarBooksResponse> {
-  const response = await apiClient.get<SimilarBooksResponse>('/recommendations/trending');
+  const response = await apiClient.get<SimilarBooksResponse>(
+    '/recommendations/trending'
+  );
   return response.data;
 }
 
 export async function getNewReleases(): Promise<SimilarBooksResponse> {
-  const response = await apiClient.get<SimilarBooksResponse>('/recommendations/new-releases');
+  const response = await apiClient.get<SimilarBooksResponse>(
+    '/recommendations/new-releases'
+  );
   return response.data;
 }
 
-export async function getPopularInCategory(category: string): Promise<SimilarBooksResponse> {
+export async function getPopularInCategory(
+  category: string
+): Promise<SimilarBooksResponse> {
   const response = await apiClient.get<SimilarBooksResponse>(
     `/recommendations/popular/${encodeURIComponent(category)}`
   );

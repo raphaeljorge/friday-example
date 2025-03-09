@@ -7,7 +7,11 @@ import { renderWithProviders } from '@/test/utils';
 import * as booksApi from '@/features/books/api/books';
 import * as searchStore from '../../store/searchStore';
 import type { UseQueryResult } from '@tanstack/react-query';
-import type { CategoriesResponse, TagsResponse, SearchBooksResponse } from '@/features/books/types';
+import type {
+  CategoriesResponse,
+  TagsResponse,
+  SearchBooksResponse,
+} from '@/features/books/types';
 
 // Mock the debounce hook to be immediate in tests
 vi.mock('../../hooks/useDebounce', () => ({
@@ -27,24 +31,26 @@ vi.mock('../../store/searchStore', () => ({
 
 const mockCategories = ['Fiction', 'Science', 'History'];
 const mockTags = ['bestseller', 'new', 'classic'];
-const mockSearchResults = [{
-  id: '1',
-  title: 'Test Book',
-  author: 'Test Author',
-  isbn: '1234567890',
-  coverImage: 'test.jpg',
-  description: 'Test Description',
-  publishedDate: '2024-01-01',
-  publisher: 'Test Publisher',
-  categories: ['Fiction'],
-  tags: ['bestseller'],
-  status: 'available' as const,
-  copies: {
-    total: 1,
-    available: 1,
+const mockSearchResults = [
+  {
+    id: '1',
+    title: 'Test Book',
+    author: 'Test Author',
+    isbn: '1234567890',
+    coverImage: 'test.jpg',
+    description: 'Test Description',
+    publishedDate: '2024-01-01',
+    publisher: 'Test Publisher',
+    categories: ['Fiction'],
+    tags: ['bestseller'],
+    status: 'available' as const,
+    copies: {
+      total: 1,
+      available: 1,
+    },
+    rating: 4.5,
   },
-  rating: 4.5,
-}];
+];
 
 describe('Search', () => {
   beforeEach(() => {
@@ -74,7 +80,7 @@ describe('Search', () => {
       isInitialLoading: false,
       isPaused: false,
       refetch: vi.fn(),
-      promise: Promise.resolve({ data: mockCategories })
+      promise: Promise.resolve({ data: mockCategories }),
     } as unknown as UseQueryResult<CategoriesResponse, Error>);
 
     vi.mocked(booksApi.useTags).mockReturnValue({
@@ -102,15 +108,15 @@ describe('Search', () => {
       isInitialLoading: false,
       isPaused: false,
       refetch: vi.fn(),
-      promise: Promise.resolve({ data: mockTags })
+      promise: Promise.resolve({ data: mockTags }),
     } as unknown as UseQueryResult<TagsResponse, Error>);
 
     vi.mocked(booksApi.useSearchBooks).mockReturnValue({
       data: {
         data: mockSearchResults,
         meta: {
-          total: mockSearchResults.length
-        }
+          total: mockSearchResults.length,
+        },
       },
       isLoading: false,
       error: null,
@@ -137,8 +143,8 @@ describe('Search', () => {
       refetch: vi.fn(),
       promise: Promise.resolve({
         data: mockSearchResults,
-        meta: { total: mockSearchResults.length }
-      })
+        meta: { total: mockSearchResults.length },
+      }),
     } as unknown as UseQueryResult<SearchBooksResponse, Error>);
 
     vi.mocked(searchStore.useSearchStore).mockReturnValue({
@@ -149,26 +155,30 @@ describe('Search', () => {
 
   it('renders the search form', () => {
     renderWithProviders(<Search />, { initialPath: '/search' });
-    
+
     // Check main elements
-    expect(screen.getByRole('heading', { name: 'Advanced Search' })).toBeInTheDocument();
+    expect(
+      screen.getByRole('heading', { name: 'Advanced Search' })
+    ).toBeInTheDocument();
     expect(
       screen.getByPlaceholderText('Search by title, author, or description...')
     ).toBeInTheDocument();
-    
+
     // Check filters
     expect(screen.getByLabelText('Search')).toBeInTheDocument();
     expect(screen.getByLabelText('Category')).toBeInTheDocument();
     expect(screen.getByLabelText('Status')).toBeInTheDocument();
     expect(screen.getByLabelText('Minimum Rating')).toBeInTheDocument();
-    
+
     // Check categories are rendered
-    mockCategories.forEach(category => {
-      expect(screen.getByRole('option', { name: category })).toBeInTheDocument();
+    mockCategories.forEach((category) => {
+      expect(
+        screen.getByRole('option', { name: category })
+      ).toBeInTheDocument();
     });
 
     // Check tags are rendered
-    mockTags.forEach(tag => {
+    mockTags.forEach((tag) => {
       expect(screen.getByRole('button', { name: tag })).toBeInTheDocument();
     });
   });
@@ -176,7 +186,7 @@ describe('Search', () => {
   it('handles search input changes', () => {
     renderWithProviders(<Search />, { initialPath: '/search' });
     const searchInput = screen.getByLabelText('Search');
-    
+
     fireEvent.change(searchInput, { target: { value: 'test search' } });
     expect(searchInput).toHaveValue('test search');
   });
@@ -184,7 +194,7 @@ describe('Search', () => {
   it('handles category selection', () => {
     renderWithProviders(<Search />, { initialPath: '/search' });
     const categorySelect = screen.getByLabelText('Category');
-    
+
     fireEvent.change(categorySelect, { target: { value: 'Fiction' } });
     expect(categorySelect).toHaveValue('Fiction');
   });
@@ -192,7 +202,7 @@ describe('Search', () => {
   it('handles tag selection', () => {
     renderWithProviders(<Search />, { initialPath: '/search' });
     const tagButton = screen.getByRole('button', { name: 'bestseller' });
-    
+
     fireEvent.click(tagButton);
     expect(tagButton).toHaveClass('bg-blue-600', 'text-white');
   });
@@ -233,11 +243,13 @@ describe('Search', () => {
       isInitialLoading: false,
       isPaused: false,
       refetch: vi.fn(),
-      promise: errorPromise
+      promise: errorPromise,
     } as unknown as UseQueryResult<SearchBooksResponse, Error>);
 
     renderWithProviders(<Search />, { initialPath: '/search' });
-    expect(screen.getByText('Error: Failed to search books')).toBeInTheDocument();
+    expect(
+      screen.getByText('Error: Failed to search books')
+    ).toBeInTheDocument();
   });
 
   it('displays loading state', () => {
@@ -266,7 +278,7 @@ describe('Search', () => {
       isInitialLoading: true,
       isPaused: false,
       refetch: vi.fn(),
-      promise: Promise.resolve(undefined)
+      promise: Promise.resolve(undefined),
     } as unknown as UseQueryResult<SearchBooksResponse, Error>);
 
     renderWithProviders(<Search />, { initialPath: '/search' });

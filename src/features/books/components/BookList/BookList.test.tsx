@@ -88,7 +88,7 @@ const createSuccessQueryResult = <T,>(data: T) => ({
   refetch: vi.fn(),
   status: 'success' as const,
   fetchStatus: 'idle' as const,
-  promise: Promise.resolve(data)
+  promise: Promise.resolve(data),
 });
 
 const createLoadingQueryResult = <T,>() => ({
@@ -116,7 +116,7 @@ const createLoadingQueryResult = <T,>() => ({
   refetch: vi.fn(),
   status: 'pending' as const,
   fetchStatus: 'fetching' as const,
-  promise: Promise.resolve({} as T)
+  promise: Promise.resolve({} as T),
 });
 
 const createErrorQueryResult = <T,>(error: Error) => ({
@@ -144,7 +144,7 @@ const createErrorQueryResult = <T,>(error: Error) => ({
   refetch: vi.fn(),
   status: 'error' as const,
   fetchStatus: 'idle' as const,
-  promise: Promise.reject(error)
+  promise: Promise.reject(error),
 });
 
 describe('BookList', () => {
@@ -175,7 +175,7 @@ describe('BookList', () => {
       meta: {
         total: 24, // 2 pages with 12 items per page
         page: 1,
-        limit: 12
+        limit: 12,
       },
     };
 
@@ -190,10 +190,10 @@ describe('BookList', () => {
 
     // Check pagination
     expect(screen.getByText('Page 1 of 2')).toBeInTheDocument();
-    
+
     const prevButton = screen.getByText('Previous');
     const nextButton = screen.getByText('Next');
-    
+
     expect(prevButton).toBeDisabled();
     expect(nextButton).not.toBeDisabled();
 

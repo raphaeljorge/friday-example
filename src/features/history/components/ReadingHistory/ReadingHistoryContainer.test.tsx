@@ -16,7 +16,7 @@ vi.mock('../../hooks/useHistory', () => ({
   useUpdateReadingProgress: vi.fn().mockReturnValue({ mutate: vi.fn() }),
   useAddReview: vi.fn().mockReturnValue({ mutate: vi.fn() }),
   useUpdateTags: vi.fn().mockReturnValue({ mutate: vi.fn() }),
-  useDeleteReadingHistoryEntry: vi.fn().mockReturnValue({ mutate: vi.fn() })
+  useDeleteReadingHistoryEntry: vi.fn().mockReturnValue({ mutate: vi.fn() }),
 }));
 
 const mockBook: Book = {
@@ -33,8 +33,8 @@ const mockBook: Book = {
   status: 'available',
   copies: {
     total: 1,
-    available: 1
-  }
+    available: 1,
+  },
 };
 
 const createSuccessQueryResult = <T,>(data: T) => ({
@@ -62,7 +62,7 @@ const createSuccessQueryResult = <T,>(data: T) => ({
   refetch: vi.fn(),
   status: 'success' as const,
   fetchStatus: 'idle' as const,
-  promise: Promise.resolve(data)
+  promise: Promise.resolve(data),
 });
 
 const createLoadingQueryResult = <T,>() => ({
@@ -90,7 +90,7 @@ const createLoadingQueryResult = <T,>() => ({
   refetch: vi.fn(),
   status: 'pending' as const,
   fetchStatus: 'fetching' as const,
-  promise: Promise.resolve({} as T)
+  promise: Promise.resolve({} as T),
 });
 
 describe('ReadingHistoryContainer', () => {
@@ -107,25 +107,27 @@ describe('ReadingHistoryContainer', () => {
 
   it('renders reading history when data is available', () => {
     const mockHistoryData: ReadingHistoryResponse = {
-      data: [{
-        id: '1',
-        book: mockBook,
-        startDate: '2024-01-01',
-        endDate: '2024-01-02',
-        status: 'completed',
-        progress: {
-          currentPage: 200,
-          totalPages: 200,
-          lastReadAt: '2024-01-02',
+      data: [
+        {
+          id: '1',
+          book: mockBook,
+          startDate: '2024-01-01',
+          endDate: '2024-01-02',
+          status: 'completed',
+          progress: {
+            currentPage: 200,
+            totalPages: 200,
+            lastReadAt: '2024-01-02',
+          },
+          tags: [],
         },
-        tags: []
-      }],
+      ],
       meta: {
         total: 1,
         completed: 1,
         inProgress: 0,
-        abandoned: 0
-      }
+        abandoned: 0,
+      },
     };
 
     const mockStatsData: ReadingStatsResponse = {
@@ -137,12 +139,14 @@ describe('ReadingHistoryContainer', () => {
         pagesRead: 200,
         readingStreak: 1,
         favoriteGenres: [{ name: 'Fiction', count: 1 }],
-        readingByMonth: [{ month: '2024-01', count: 1 }]
-      }
+        readingByMonth: [{ month: '2024-01', count: 1 }],
+      },
     };
 
-    const historyResult = createSuccessQueryResult<ReadingHistoryResponse>(mockHistoryData);
-    const statsResult = createSuccessQueryResult<ReadingStatsResponse>(mockStatsData);
+    const historyResult =
+      createSuccessQueryResult<ReadingHistoryResponse>(mockHistoryData);
+    const statsResult =
+      createSuccessQueryResult<ReadingStatsResponse>(mockStatsData);
 
     vi.mocked(useReadingHistory).mockReturnValue(historyResult);
     vi.mocked(useReadingStats).mockReturnValue(statsResult);

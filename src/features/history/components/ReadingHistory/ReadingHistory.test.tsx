@@ -71,32 +71,22 @@ describe('ReadingHistory', () => {
   };
 
   it('renders reading history correctly', () => {
-    renderWithProviders(
-      <ReadingHistory
-        {...requiredProps}
-      />
-    );
+    renderWithProviders(<ReadingHistory {...requiredProps} />);
     expect(screen.getByText('Test Book')).toBeInTheDocument();
     expect(screen.getByText('Test Author')).toBeInTheDocument();
   });
 
   it('renders loading state', () => {
-    renderWithProviders(
-      <ReadingHistory
-        {...requiredProps}
-        isLoading={true}
-      />
-    );
+    renderWithProviders(<ReadingHistory {...requiredProps} isLoading={true} />);
     expect(screen.getByTestId('loading-spinner')).toBeInTheDocument();
   });
 
   it('renders no history message when history is empty', () => {
-    renderWithProviders(
-      <ReadingHistory
-        {...requiredProps}
-        history={[]}
-      />
-    );
-    expect(screen.getByText('No reading history yet. Start reading to track your progress!')).toBeInTheDocument();
+    renderWithProviders(<ReadingHistory {...requiredProps} history={[]} />);
+    expect(
+      screen.getByText(
+        'No reading history yet. Start reading to track your progress!'
+      )
+    ).toBeInTheDocument();
   });
 });

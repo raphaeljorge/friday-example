@@ -16,7 +16,8 @@ const recommendationKeys = {
   all: ['recommendations'] as const,
   lists: () => [...recommendationKeys.all, 'list'] as const,
   similar: () => [...recommendationKeys.all, 'similar'] as const,
-  similarBooks: (bookId: string) => [...recommendationKeys.similar(), bookId] as const,
+  similarBooks: (bookId: string) =>
+    [...recommendationKeys.similar(), bookId] as const,
   preferences: () => [...recommendationKeys.all, 'preferences'] as const,
   trending: () => [...recommendationKeys.all, 'trending'] as const,
   newReleases: () => [...recommendationKeys.all, 'new-releases'] as const,
@@ -52,7 +53,9 @@ export function useUpdateRecommendationPreferences() {
   return useMutation({
     mutationFn: updateRecommendationPreferences,
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: recommendationKeys.preferences() });
+      queryClient.invalidateQueries({
+        queryKey: recommendationKeys.preferences(),
+      });
       queryClient.invalidateQueries({ queryKey: recommendationKeys.lists() });
     },
   });

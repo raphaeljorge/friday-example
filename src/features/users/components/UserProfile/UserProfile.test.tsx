@@ -37,15 +37,21 @@ describe('UserProfile', () => {
 
     // Check user details
     expect(screen.getByTestId('user-name')).toHaveTextContent('Test User');
-    expect(screen.getByTestId('user-email')).toHaveTextContent('test@example.com');
+    expect(screen.getByTestId('user-email')).toHaveTextContent(
+      'test@example.com'
+    );
 
     // Check favorite categories
     expect(screen.getByText('Fiction')).toBeInTheDocument();
     expect(screen.getByText('Science')).toBeInTheDocument();
 
     // Check notification settings
-    const emailCheckbox = screen.getByRole('checkbox', { name: 'Email notifications' });
-    const pushCheckbox = screen.getByRole('checkbox', { name: 'Push notifications' });
+    const emailCheckbox = screen.getByRole('checkbox', {
+      name: 'Email notifications',
+    });
+    const pushCheckbox = screen.getByRole('checkbox', {
+      name: 'Push notifications',
+    });
     expect(emailCheckbox).toBeChecked();
     expect(pushCheckbox).not.toBeChecked();
   });
@@ -73,7 +79,9 @@ describe('UserProfile', () => {
     );
 
     // Toggle email notifications
-    const emailCheckbox = screen.getByRole('checkbox', { name: 'Email notifications' });
+    const emailCheckbox = screen.getByRole('checkbox', {
+      name: 'Email notifications',
+    });
     fireEvent.click(emailCheckbox);
     expect(mockOnUpdateProfile).toHaveBeenCalledWith({
       preferences: {
@@ -86,7 +94,9 @@ describe('UserProfile', () => {
     });
 
     // Toggle push notifications
-    const pushCheckbox = screen.getByRole('checkbox', { name: 'Push notifications' });
+    const pushCheckbox = screen.getByRole('checkbox', {
+      name: 'Push notifications',
+    });
     fireEvent.click(pushCheckbox);
     expect(mockOnUpdateProfile).toHaveBeenCalledWith({
       preferences: {

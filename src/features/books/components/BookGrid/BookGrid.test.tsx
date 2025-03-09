@@ -43,12 +43,7 @@ describe('BookGrid', () => {
   });
 
   it('renders book grid correctly', () => {
-    renderWithProviders(
-      <BookGrid 
-        books={mockBooks} 
-        isLoading={false} 
-      />
-    );
+    renderWithProviders(<BookGrid books={mockBooks} isLoading={false} />);
 
     // Check for book title
     const heading = screen.getByRole('heading', { name: 'Test Book 1' });
@@ -74,12 +69,7 @@ describe('BookGrid', () => {
   });
 
   it('renders loading state', () => {
-    renderWithProviders(
-      <BookGrid 
-        books={[]} 
-        isLoading={true} 
-      />
-    );
+    renderWithProviders(<BookGrid books={[]} isLoading={true} />);
 
     // Check for skeleton loading cards
     const skeletons = screen.getAllByTestId('loading-skeleton');
@@ -91,23 +81,36 @@ describe('BookGrid', () => {
 
     // Check skeleton image placeholder
     const imagePlaceholder = within(firstSkeleton).getByRole('presentation');
-    expect(imagePlaceholder).toHaveClass('aspect-[2/3]', 'bg-gray-200', 'rounded-t-lg', 'animate-pulse');
+    expect(imagePlaceholder).toHaveClass(
+      'aspect-[2/3]',
+      'bg-gray-200',
+      'rounded-t-lg',
+      'animate-pulse'
+    );
 
     // Check skeleton text placeholders
-    const titlePlaceholder = within(firstSkeleton).getByTestId('skeleton-title');
-    expect(titlePlaceholder).toHaveClass('h-4', 'bg-gray-200', 'rounded', 'animate-pulse');
+    const titlePlaceholder =
+      within(firstSkeleton).getByTestId('skeleton-title');
+    expect(titlePlaceholder).toHaveClass(
+      'h-4',
+      'bg-gray-200',
+      'rounded',
+      'animate-pulse'
+    );
 
-    const authorPlaceholder = within(firstSkeleton).getByTestId('skeleton-author');
-    expect(authorPlaceholder).toHaveClass('h-3', 'bg-gray-200', 'rounded', 'animate-pulse', 'w-2/3');
+    const authorPlaceholder =
+      within(firstSkeleton).getByTestId('skeleton-author');
+    expect(authorPlaceholder).toHaveClass(
+      'h-3',
+      'bg-gray-200',
+      'rounded',
+      'animate-pulse',
+      'w-2/3'
+    );
   });
 
   it('renders no books message when books is empty', () => {
-    renderWithProviders(
-      <BookGrid 
-        books={[]} 
-        isLoading={false} 
-      />
-    );
+    renderWithProviders(<BookGrid books={[]} isLoading={false} />);
 
     // Check for message container
     const messageContainer = screen.getByRole('region');

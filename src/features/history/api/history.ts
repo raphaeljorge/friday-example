@@ -8,19 +8,27 @@ import type {
 } from '../types';
 
 export async function getReadingHistory(): Promise<ReadingHistoryResponse> {
-  const response = await apiClient.get<ReadingHistoryResponse>('/reading-history');
+  const response =
+    await apiClient.get<ReadingHistoryResponse>('/reading-history');
   return response.data;
 }
 
-export async function getReadingHistoryEntry(id: string): Promise<ReadingHistoryEntryResponse> {
-  const response = await apiClient.get<ReadingHistoryEntryResponse>(`/reading-history/${id}`);
+export async function getReadingHistoryEntry(
+  id: string
+): Promise<ReadingHistoryEntryResponse> {
+  const response = await apiClient.get<ReadingHistoryEntryResponse>(
+    `/reading-history/${id}`
+  );
   return response.data;
 }
 
 export async function createReadingHistoryEntry(
   request: CreateReadingHistoryRequest
 ): Promise<ReadingHistoryEntryResponse> {
-  const response = await apiClient.post<ReadingHistoryEntryResponse>('/reading-history', request);
+  const response = await apiClient.post<ReadingHistoryEntryResponse>(
+    '/reading-history',
+    request
+  );
   return response.data;
 }
 
@@ -40,7 +48,9 @@ export async function deleteReadingHistoryEntry(id: string): Promise<void> {
 }
 
 export async function getReadingStats(): Promise<ReadingStatsResponse> {
-  const response = await apiClient.get<ReadingStatsResponse>('/reading-history/stats');
+  const response = await apiClient.get<ReadingStatsResponse>(
+    '/reading-history/stats'
+  );
   return response.data;
 }
 

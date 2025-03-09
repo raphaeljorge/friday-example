@@ -9,7 +9,12 @@ interface ShelfProps {
   onDeleteShelf: (id: string) => void;
 }
 
-export function Shelf({ shelves, isLoading, onCreateShelf, onDeleteShelf }: ShelfProps) {
+export function Shelf({
+  shelves,
+  isLoading,
+  onCreateShelf,
+  onDeleteShelf,
+}: ShelfProps) {
   const handleCreateShelf = () => {
     const name = prompt('Enter shelf name');
     const description = prompt('Enter shelf description (optional)');
@@ -76,7 +81,9 @@ export function Shelf({ shelves, isLoading, onCreateShelf, onDeleteShelf }: Shel
 
             {shelf.books.length > 0 && (
               <div className="mt-4">
-                <h3 className="text-sm font-medium text-gray-700 mb-2">Recent Books</h3>
+                <h3 className="text-sm font-medium text-gray-700 mb-2">
+                  Recent Books
+                </h3>
                 <div className="flex gap-4 overflow-x-auto pb-2">
                   {shelf.books.slice(0, 3).map((shelfBook) => (
                     <Link

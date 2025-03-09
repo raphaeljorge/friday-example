@@ -10,12 +10,18 @@ import type {
 import { createMockBook } from './books';
 
 // Create mock reading history entry
-const createMockHistoryEntry = (override?: Partial<ReadingHistoryEntry>): ReadingHistoryEntry => ({
+const createMockHistoryEntry = (
+  override?: Partial<ReadingHistoryEntry>
+): ReadingHistoryEntry => ({
   id: faker.string.uuid(),
   book: createMockBook(),
   startDate: faker.date.past().toISOString(),
   endDate: faker.helpers.maybe(() => faker.date.recent().toISOString()),
-  status: faker.helpers.arrayElement(['completed', 'in-progress', 'abandoned']) as ReadingStatus,
+  status: faker.helpers.arrayElement([
+    'completed',
+    'in-progress',
+    'abandoned',
+  ]) as ReadingStatus,
   progress: {
     currentPage: faker.number.int({ min: 1, max: 500 }),
     totalPages: 500,
@@ -41,7 +47,9 @@ const calculateReadingStats = (): ReadingStats => {
   const thisYear = now.getFullYear();
   const thisMonth = now.getMonth();
 
-  const completedBooks = mockHistory.filter((entry) => entry.status === 'completed');
+  const completedBooks = mockHistory.filter(
+    (entry) => entry.status === 'completed'
+  );
   const booksThisYear = completedBooks.filter(
     (entry) => new Date(entry.endDate!).getFullYear() === thisYear
   );
@@ -63,7 +71,9 @@ const calculateReadingStats = (): ReadingStats => {
   // Calculate reading streak
   const sortedEntries = [...mockHistory]
     .filter((entry) => entry.status === 'completed')
-    .sort((a, b) => new Date(b.endDate!).getTime() - new Date(a.endDate!).getTime());
+    .sort(
+      (a, b) => new Date(b.endDate!).getTime() - new Date(a.endDate!).getTime()
+    );
 
   let streak = 0;
   let currentDate = new Date();
@@ -81,12 +91,15 @@ const calculateReadingStats = (): ReadingStats => {
   }
 
   // Calculate favorite genres
-  const genreCounts = mockHistory.reduce((counts, entry) => {
-    entry.book.categories.forEach((category) => {
-      counts[category] = (counts[category] || 0) + 1;
-    });
-    return counts;
-  }, {} as Record<string, number>);
+  const genreCounts = mockHistory.reduce(
+    (counts, entry) => {
+      entry.book.categories.forEach((category) => {
+        counts[category] = (counts[category] || 0) + 1;
+      });
+      return counts;
+    },
+    {} as Record<string, number>
+  );
 
   const favoriteGenres = Object.entries(genreCounts)
     .map(([name, count]) => ({ name, count }))
@@ -126,9 +139,13 @@ export const historyHandlers = [
       data: mockHistory,
       meta: {
         total: mockHistory.length,
-        completed: mockHistory.filter((entry) => entry.status === 'completed').length,
-        inProgress: mockHistory.filter((entry) => entry.status === 'in-progress').length,
-        abandoned: mockHistory.filter((entry) => entry.status === 'abandoned').length,
+        completed: mockHistory.filter((entry) => entry.status === 'completed')
+          .length,
+        inProgress: mockHistory.filter(
+          (entry) => entry.status === 'in-progress'
+        ).length,
+        abandoned: mockHistory.filter((entry) => entry.status === 'abandoned')
+          .length,
       },
     });
   }),
@@ -144,7 +161,7 @@ export const historyHandlers = [
 
   // POST /api/reading-history - Create reading history entry
   http.post('/api/reading-history', async ({ request }) => {
-    const data = await request.json() as CreateReadingHistoryRequest;
+    const data = (await request.json()) as CreateReadingHistoryRequest;
     const newEntry = createMockHistoryEntry({
       book: createMockBook({ id: data.bookId }),
       startDate: data.startDate,
@@ -161,7 +178,7 @@ export const historyHandlers = [
 
   // PUT /api/reading-history/:id - Update reading history entry
   http.put('/api/reading-history/:id', async ({ params, request }) => {
-    const data = await request.json() as UpdateReadingHistoryRequest;
+    const data = (await request.json()) as UpdateReadingHistoryRequest;
     const index = mockHistory.findIndex((h) => h.id === params.id);
     if (index === -1) {
       return new HttpResponse(null, { status: 404 });
@@ -206,7 +223,10 @@ export const historyHandlers = [
 
   // PUT /api/reading-history/:id/progress - Update reading progress
   http.put('/api/reading-history/:id/progress', async ({ params, request }) => {
-    const data = await request.json() as { currentPage: number; notes?: string };
+    const data = (await request.json()) as {
+      currentPage: number;
+      notes?: string;
+    };
     const index = mockHistory.findIndex((h) => h.id === params.id);
     if (index === -1) {
       return new HttpResponse(null, { status: 404 });
@@ -228,7 +248,7 @@ export const historyHandlers = [
 
   // PUT /api/reading-history/:id/review - Add review
   http.put('/api/reading-history/:id/review', async ({ params, request }) => {
-    const data = await request.json() as { rating: number; review: string };
+    const data = (await request.json()) as { rating: number; review: string };
     const index = mockHistory.findIndex((h) => h.id === params.id);
     if (index === -1) {
       return new HttpResponse(null, { status: 404 });
@@ -246,7 +266,7 @@ export const historyHandlers = [
 
   // PUT /api/reading-history/:id/tags - Update tags
   http.put('/api/reading-history/:id/tags', async ({ params, request }) => {
-    const data = await request.json() as { tags: string[] };
+    const data = (await request.json()) as { tags: string[] };
     const index = mockHistory.findIndex((h) => h.id === params.id);
     if (index === -1) {
       return new HttpResponse(null, { status: 404 });

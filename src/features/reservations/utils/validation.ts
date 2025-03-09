@@ -1,4 +1,8 @@
-import type { CreateReservationRequest, UpdateReservationRequest, ReservationValidationError } from '../types';
+import type {
+  CreateReservationRequest,
+  UpdateReservationRequest,
+  ReservationValidationError,
+} from '../types';
 
 const MAX_RESERVATION_DAYS = 30;
 const MIN_PICKUP_DAYS = 1;
@@ -14,7 +18,9 @@ export function validateReservationDates(
   const return_ = new Date(returnDate);
 
   // Validate pickup date
-  const daysUntilPickup = Math.floor((pickup.getTime() - now.getTime()) / (1000 * 60 * 60 * 24));
+  const daysUntilPickup = Math.floor(
+    (pickup.getTime() - now.getTime()) / (1000 * 60 * 60 * 24)
+  );
   if (daysUntilPickup < MIN_PICKUP_DAYS) {
     errors.push({
       field: 'pickupDate',
@@ -36,7 +42,9 @@ export function validateReservationDates(
     });
   }
 
-  const reservationDays = Math.floor((return_.getTime() - pickup.getTime()) / (1000 * 60 * 60 * 24));
+  const reservationDays = Math.floor(
+    (return_.getTime() - pickup.getTime()) / (1000 * 60 * 60 * 24)
+  );
   if (reservationDays > MAX_RESERVATION_DAYS) {
     errors.push({
       field: 'returnDate',
@@ -76,7 +84,9 @@ export function validateCreateReservation(
 
   // Validate dates if both are provided
   if (request.pickupDate && request.returnDate) {
-    errors.push(...validateReservationDates(request.pickupDate, request.returnDate));
+    errors.push(
+      ...validateReservationDates(request.pickupDate, request.returnDate)
+    );
   }
 
   // Validate recurrence
@@ -111,7 +121,9 @@ export function validateUpdateReservation(
 
   // Validate dates if both are provided
   if (request.pickupDate && request.returnDate) {
-    errors.push(...validateReservationDates(request.pickupDate, request.returnDate));
+    errors.push(
+      ...validateReservationDates(request.pickupDate, request.returnDate)
+    );
   }
 
   // Validate status transitions
