@@ -20,12 +20,10 @@
       },
       "nursery": {
         "useSortedClasses": {
-          "level":"warn",
-          "fix":"safe",
-          "options":{
-            "attributes": [
-              "className"
-            ]
+          "level": "warn",
+          "fix": "safe",
+          "options": {
+            "attributes": ["className"]
           }
         }
       }
