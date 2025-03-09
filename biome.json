@@ -17,6 +17,17 @@
       "style": {
         "noNonNullAssertion": "error",
         "useConst": "error"
+      },
+      "nursery": {
+        "useSortedClasses": {
+          "level":"warn",
+          "fix":"safe",
+          "options":{
+            "attributes": [
+              "className"
+            ]
+          }
+        }
       }
     }
   },
