@@ -36,9 +36,6 @@ export function UserProfileContainer() {
   }
 
   return (
-    <UserProfile
-      user={response.data}
-      onUpdateProfile={handleUpdateProfile}
-    />
+    <UserProfile user={response.data} onUpdateProfile={handleUpdateProfile} />
   );
 }

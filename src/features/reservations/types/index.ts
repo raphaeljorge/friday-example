@@ -1,5 +1,14 @@
-export type ReservationStatus = 'pending' | 'confirmed' | 'cancelled' | 'completed' | 'overdue';
-export type NotificationType = 'confirmation' | 'reminder' | 'overdue' | 'cancellation';
+export type ReservationStatus =
+  | 'pending'
+  | 'confirmed'
+  | 'cancelled'
+  | 'completed'
+  | 'overdue';
+export type NotificationType =
+  | 'confirmation'
+  | 'reminder'
+  | 'overdue'
+  | 'cancellation';
 export type RecurrencePattern = 'weekly' | 'biweekly' | 'monthly';
 
 export interface Reservation {

@@ -40,14 +40,19 @@ export function ReadingHistory({
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
           <div className="p-4 bg-blue-50 rounded-lg">
             <div className="text-sm text-gray-600">Books Read</div>
-            <div className="text-2xl font-bold text-blue-600">{stats.totalBooksRead}</div>
+            <div className="text-2xl font-bold text-blue-600">
+              {stats.totalBooksRead}
+            </div>
             <div className="text-sm text-gray-500">
-              {stats.booksThisYear} this year • {stats.booksThisMonth} this month
+              {stats.booksThisYear} this year • {stats.booksThisMonth} this
+              month
             </div>
           </div>
           <div className="p-4 bg-green-50 rounded-lg">
             <div className="text-sm text-gray-600">Pages Read</div>
-            <div className="text-2xl font-bold text-green-600">{stats.pagesRead}</div>
+            <div className="text-2xl font-bold text-green-600">
+              {stats.pagesRead}
+            </div>
           </div>
           <div className="p-4 bg-yellow-50 rounded-lg">
             <div className="text-sm text-gray-600">Average Rating</div>
@@ -57,13 +62,17 @@ export function ReadingHistory({
           </div>
           <div className="p-4 bg-purple-50 rounded-lg">
             <div className="text-sm text-gray-600">Reading Streak</div>
-            <div className="text-2xl font-bold text-purple-600">{stats.readingStreak} days</div>
+            <div className="text-2xl font-bold text-purple-600">
+              {stats.readingStreak} days
+            </div>
           </div>
         </div>
 
         {/* Favorite Genres */}
         <div className="mt-6">
-          <h3 className="text-sm font-medium text-gray-700 mb-2">Favorite Genres</h3>
+          <h3 className="text-sm font-medium text-gray-700 mb-2">
+            Favorite Genres
+          </h3>
           <div className="flex flex-wrap gap-2">
             {stats.favoriteGenres.map((genre) => (
               <span
@@ -78,17 +87,24 @@ export function ReadingHistory({
 
         {/* Reading by Month */}
         <div className="mt-6">
-          <h3 className="text-sm font-medium text-gray-700 mb-2">Reading Activity</h3>
+          <h3 className="text-sm font-medium text-gray-700 mb-2">
+            Reading Activity
+          </h3>
           <div className="flex items-end space-x-2 h-32">
             {stats.readingByMonth.map((month) => {
-              const height = `${(month.count / Math.max(...stats.readingByMonth.map(m => m.count))) * 100}%`;
+              const height = `${(month.count / Math.max(...stats.readingByMonth.map((m) => m.count))) * 100}%`;
               return (
-                <div key={month.month} className="flex-1 flex flex-col items-center">
+                <div
+                  key={month.month}
+                  className="flex-1 flex flex-col items-center"
+                >
                   <div
                     className="w-full bg-blue-200 rounded-t"
                     style={{ height }}
                   ></div>
-                  <div className="text-xs text-gray-500 mt-1">{month.month}</div>
+                  <div className="text-xs text-gray-500 mt-1">
+                    {month.month}
+                  </div>
                 </div>
               );
             })}
@@ -130,10 +146,16 @@ export function ReadingHistory({
                   </div>
                   <div className="flex justify-between text-sm text-gray-500 mt-1">
                     <span>
-                      Page {entry.progress.currentPage} of {entry.progress.totalPages}
+                      Page {entry.progress.currentPage} of{' '}
+                      {entry.progress.totalPages}
                     </span>
                     <span>
-                      {Math.round((entry.progress.currentPage / entry.progress.totalPages) * 100)}%
+                      {Math.round(
+                        (entry.progress.currentPage /
+                          entry.progress.totalPages) *
+                          100
+                      )}
+                      %
                     </span>
                   </div>
                 </div>
@@ -147,7 +169,11 @@ export function ReadingHistory({
                     className="w-20 px-2 py-1 border rounded"
                     value={entry.progress.currentPage}
                     onChange={(e) =>
-                      onUpdateProgress(entry.id, Number(e.target.value), entry.progress.notes)
+                      onUpdateProgress(
+                        entry.id,
+                        Number(e.target.value),
+                        entry.progress.notes
+                      )
                     }
                   />
                   <button
@@ -175,8 +201,8 @@ export function ReadingHistory({
                         entry.status === 'completed'
                           ? 'text-green-600'
                           : entry.status === 'in-progress'
-                          ? 'text-blue-600'
-                          : 'text-red-600'
+                            ? 'text-blue-600'
+                            : 'text-red-600'
                       }`}
                     >
                       {entry.status.replace('-', ' ')}
@@ -184,12 +210,16 @@ export function ReadingHistory({
                   </div>
                   <div className="flex justify-between mt-1">
                     <span className="text-gray-600">Started:</span>
-                    <span>{new Date(entry.startDate).toLocaleDateString()}</span>
+                    <span>
+                      {new Date(entry.startDate).toLocaleDateString()}
+                    </span>
                   </div>
                   {entry.endDate && (
                     <div className="flex justify-between mt-1">
                       <span className="text-gray-600">Finished:</span>
-                      <span>{new Date(entry.endDate).toLocaleDateString()}</span>
+                      <span>
+                        {new Date(entry.endDate).toLocaleDateString()}
+                      </span>
                     </div>
                   )}
                 </div>
@@ -200,7 +230,9 @@ export function ReadingHistory({
             {entry.progress.notes && (
               <div className="mt-4">
                 <h4 className="text-sm font-medium text-gray-700">Notes</h4>
-                <p className="mt-1 text-sm text-gray-600">{entry.progress.notes}</p>
+                <p className="mt-1 text-sm text-gray-600">
+                  {entry.progress.notes}
+                </p>
               </div>
             )}
 
@@ -210,8 +242,12 @@ export function ReadingHistory({
               {entry.rating ? (
                 <div className="mt-1">
                   <div className="flex items-center">
-                    <div className="text-yellow-400 text-lg">{'★'.repeat(entry.rating)}</div>
-                    <div className="text-gray-300 text-lg">{'★'.repeat(5 - entry.rating)}</div>
+                    <div className="text-yellow-400 text-lg">
+                      {'★'.repeat(entry.rating)}
+                    </div>
+                    <div className="text-gray-300 text-lg">
+                      {'★'.repeat(5 - entry.rating)}
+                    </div>
                   </div>
                   {entry.review && (
                     <p className="mt-1 text-sm text-gray-600">{entry.review}</p>

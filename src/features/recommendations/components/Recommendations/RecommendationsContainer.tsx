@@ -11,7 +11,10 @@ export function RecommendationsContainer() {
   const dismissRecommendation = useDismissRecommendation();
   const refreshRecommendations = useRefreshRecommendations();
 
-  const handleDismiss = (recommendationId: string, request: DismissRecommendationRequest) => {
+  const handleDismiss = (
+    recommendationId: string,
+    request: DismissRecommendationRequest
+  ) => {
     dismissRecommendation.mutate({
       recommendationId,
       request,
@@ -25,7 +28,11 @@ export function RecommendationsContainer() {
   return (
     <Recommendations
       groups={data?.data ?? []}
-      isLoading={isLoading || dismissRecommendation.isPending || refreshRecommendations.isPending}
+      isLoading={
+        isLoading ||
+        dismissRecommendation.isPending ||
+        refreshRecommendations.isPending
+      }
       onDismiss={handleDismiss}
       onRefresh={handleRefresh}
     />

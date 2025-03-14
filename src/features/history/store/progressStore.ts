@@ -94,7 +94,9 @@ export const useProgressStore = create<ProgressStore>()(
           .reduce((total, session) => {
             const start = new Date(session.startTime);
             const end = new Date(session.endTime!);
-            const minutes = Math.round((end.getTime() - start.getTime()) / (1000 * 60));
+            const minutes = Math.round(
+              (end.getTime() - start.getTime()) / (1000 * 60)
+            );
             return total + minutes;
           }, 0);
       },
@@ -112,7 +114,5 @@ export const formatReadingTime = (minutes: number): string => {
   }
   const hours = Math.floor(minutes / 60);
   const remainingMinutes = minutes % 60;
-  return remainingMinutes > 0
-    ? `${hours}h ${remainingMinutes}m`
-    : `${hours}h`;
+  return remainingMinutes > 0 ? `${hours}h ${remainingMinutes}m` : `${hours}h`;
 };

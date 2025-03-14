@@ -35,7 +35,10 @@ const mockShelves: Shelf[] = Array.from({ length: 3 }, () => ({
   id: faker.string.uuid(),
   name: faker.lorem.words(2),
   description: faker.helpers.maybe(() => faker.lorem.sentence()),
-  books: Array.from({ length: faker.number.int({ min: 0, max: 5 }) }, createMockShelfBook),
+  books: Array.from(
+    { length: faker.number.int({ min: 0, max: 5 }) },
+    createMockShelfBook
+  ),
   createdAt: faker.date.past().toISOString(),
   updatedAt: faker.date.recent().toISOString(),
 }));
@@ -76,7 +79,7 @@ export const shelfHandlers = [
 
   // POST /api/shelves - Create new shelf
   http.post('/api/shelves', async ({ request }) => {
-    const data = await request.json() as CreateShelfRequest;
+    const data = (await request.json()) as CreateShelfRequest;
     const newShelf: Shelf = {
       id: faker.string.uuid(),
       name: data.name,
@@ -93,7 +96,7 @@ export const shelfHandlers = [
 
   // PUT /api/shelves/:id - Update shelf
   http.put('/api/shelves/:id', async ({ params, request }) => {
-    const data = await request.json() as UpdateShelfRequest;
+    const data = (await request.json()) as UpdateShelfRequest;
     const shelfIndex = mockShelves.findIndex((s) => s.id === params.id);
     if (shelfIndex === -1) {
       return new HttpResponse(null, { status: 404 });
@@ -120,44 +123,52 @@ export const shelfHandlers = [
   }),
 
   // POST /api/shelves/:shelfId/books/:bookId - Add book to shelf
-  http.post('/api/shelves/:shelfId/books/:bookId', async ({ params, request }) => {
-    const data = await request.json() as UpdateShelfBookRequest;
-    const shelf = mockShelves.find((s) => s.id === params.shelfId);
-    if (!shelf) {
-      return new HttpResponse(null, { status: 404 });
+  http.post(
+    '/api/shelves/:shelfId/books/:bookId',
+    async ({ params, request }) => {
+      const data = (await request.json()) as UpdateShelfBookRequest;
+      const shelf = mockShelves.find((s) => s.id === params.shelfId);
+      if (!shelf) {
+        return new HttpResponse(null, { status: 404 });
+      }
+      const newShelfBook: ShelfBook = {
+        book: createMockBook(), // In a real app, we'd fetch the actual book
+        addedAt: new Date().toISOString(),
+        status: data.status || 'want-to-read',
+        notes: data.notes,
+      };
+      shelf.books.push(newShelfBook);
+      return HttpResponse.json({
+        data: shelf,
+      });
     }
-    const newShelfBook: ShelfBook = {
-      book: createMockBook(), // In a real app, we'd fetch the actual book
-      addedAt: new Date().toISOString(),
-      status: data.status || 'want-to-read',
-      notes: data.notes,
-    };
-    shelf.books.push(newShelfBook);
-    return HttpResponse.json({
-      data: shelf,
-    });
-  }),
+  ),
 
   // PUT /api/shelves/:shelfId/books/:bookId - Update book in shelf
-  http.put('/api/shelves/:shelfId/books/:bookId', async ({ params, request }) => {
-    const data = await request.json() as UpdateShelfBookRequest;
-    const shelf = mockShelves.find((s) => s.id === params.shelfId);
-    if (!shelf) {
-      return new HttpResponse(null, { status: 404 });
+  http.put(
+    '/api/shelves/:shelfId/books/:bookId',
+    async ({ params, request }) => {
+      const data = (await request.json()) as UpdateShelfBookRequest;
+      const shelf = mockShelves.find((s) => s.id === params.shelfId);
+      if (!shelf) {
+        return new HttpResponse(null, { status: 404 });
+      }
+      const bookIndex = shelf.books.findIndex(
+        (b) => b.book.id === params.bookId
+      );
+      if (bookIndex === -1) {
+        return new HttpResponse(null, { status: 404 });
+      }
+      const updatedBook = {
+        ...shelf.books[bookIndex],
+        ...data,
+      };
+      shelf.books[bookIndex] = updatedBook;
+      return HttpResponse.json({
+        data: shelf,
+      });
     }
-    const bookIndex = shelf.books.findIndex((b) => b.book.id === params.bookId);
-    if (bookIndex === -1) {
-      return new HttpResponse(null, { status: 404 });
-    }
-    const updatedBook = {
-      ...shelf.books[bookIndex],
-      ...data,
-    };
-    shelf.books[bookIndex] = updatedBook;
-    return HttpResponse.json({
-      data: shelf,
-    });
-  }),
+  ),
 
   // DELETE /api/shelves/:shelfId/books/:bookId - Remove book from shelf
   http.delete('/api/shelves/:shelfId/books/:bookId', ({ params }) => {

@@ -9,25 +9,40 @@ import type {
   UpdateReservationRequest,
   ReservationHistoryEntry,
 } from '@/features/reservations/types';
-import { validateCreateReservation, validateUpdateReservation } from '@/features/reservations/utils/validation';
+import {
+  validateCreateReservation,
+  validateUpdateReservation,
+} from '@/features/reservations/utils/validation';
 
 // Create mock notification preferences
 const createMockNotificationPreferences = () =>
-  (['confirmation', 'reminder', 'overdue', 'cancellation'] as NotificationType[]).map((type) => ({
+  (
+    [
+      'confirmation',
+      'reminder',
+      'overdue',
+      'cancellation',
+    ] as NotificationType[]
+  ).map((type) => ({
     type,
     email: faker.datatype.boolean(),
     push: faker.datatype.boolean(),
   }));
 
 // Create mock history entry
-const createMockHistoryEntry = (status: ReservationStatus, note?: string): ReservationHistoryEntry => ({
+const createMockHistoryEntry = (
+  status: ReservationStatus,
+  note?: string
+): ReservationHistoryEntry => ({
   timestamp: faker.date.recent().toISOString(),
   status,
   note: note ?? faker.helpers.maybe(() => faker.lorem.sentence()),
 });
 
 // Create mock reservation
-const createMockReservation = (override?: Partial<Reservation>): Reservation => ({
+const createMockReservation = (
+  override?: Partial<Reservation>
+): Reservation => ({
   id: faker.string.uuid(),
   bookId: faker.string.uuid(),
   userId: faker.string.uuid(),
@@ -42,28 +57,42 @@ const createMockReservation = (override?: Partial<Reservation>): Reservation => 
   pickupDate: faker.date.soon().toISOString(),
   returnDate: faker.date.future().toISOString(),
   notes: faker.helpers.maybe(() => faker.lorem.sentence()),
-  waitlistPosition: faker.helpers.maybe(() => faker.number.int({ min: 1, max: 10 })),
+  waitlistPosition: faker.helpers.maybe(() =>
+    faker.number.int({ min: 1, max: 10 })
+  ),
   notifications: createMockNotificationPreferences(),
   recurrence: faker.helpers.maybe(() => ({
-    pattern: faker.helpers.arrayElement(['weekly', 'biweekly', 'monthly']) as RecurrencePattern,
+    pattern: faker.helpers.arrayElement([
+      'weekly',
+      'biweekly',
+      'monthly',
+    ]) as RecurrencePattern,
     endDate: faker.date.future().toISOString(),
   })),
   history: [
     createMockHistoryEntry('pending'),
-    ...faker.helpers.multiple(() => createMockHistoryEntry(faker.helpers.arrayElement([
-      'confirmed',
-      'cancelled',
-      'completed',
-      'overdue',
-    ]) as ReservationStatus), {
-      count: { min: 1, max: 3 },
-    }),
+    ...faker.helpers.multiple(
+      () =>
+        createMockHistoryEntry(
+          faker.helpers.arrayElement([
+            'confirmed',
+            'cancelled',
+            'completed',
+            'overdue',
+          ]) as ReservationStatus
+        ),
+      {
+        count: { min: 1, max: 3 },
+      }
+    ),
   ],
   ...override,
 });
 
 // Create mock reservations
-const mockReservations: Reservation[] = Array.from({ length: 10 }, () => createMockReservation());
+const mockReservations: Reservation[] = Array.from({ length: 10 }, () =>
+  createMockReservation()
+);
 
 // Calculate waitlist position and estimated availability
 const calculateWaitlistEstimate = (position: number) => {
@@ -98,8 +127,8 @@ export const reservationHandlers = [
 
   // POST /api/reservations - Create reservation
   http.post('/api/reservations', async ({ request }) => {
-    const data = await request.json() as CreateReservationRequest;
-    
+    const data = (await request.json()) as CreateReservationRequest;
+
     // Validate request
     const errors = validateCreateReservation(data);
     if (errors.length > 0) {
@@ -124,8 +153,8 @@ export const reservationHandlers = [
 
   // PUT /api/reservations/:id - Update reservation
   http.put('/api/reservations/:id', async ({ params, request }) => {
-    const data = await request.json() as UpdateReservationRequest;
-    
+    const data = (await request.json()) as UpdateReservationRequest;
+
     // Validate request
     const errors = validateUpdateReservation(data);
     if (errors.length > 0) {
@@ -212,25 +241,30 @@ export const reservationHandlers = [
   }),
 
   // PUT /api/reservations/:id/notifications - Update notification preferences
-  http.put('/api/reservations/:id/notifications', async ({ params, request }) => {
-    const { notifications } = await request.json() as { notifications: Reservation['notifications'] };
-    const index = mockReservations.findIndex((r) => r.id === params.id);
-    if (index === -1) {
-      return new HttpResponse(null, { status: 404 });
+  http.put(
+    '/api/reservations/:id/notifications',
+    async ({ params, request }) => {
+      const { notifications } = (await request.json()) as {
+        notifications: Reservation['notifications'];
+      };
+      const index = mockReservations.findIndex((r) => r.id === params.id);
+      if (index === -1) {
+        return new HttpResponse(null, { status: 404 });
+      }
+
+      mockReservations[index] = {
+        ...mockReservations[index],
+        notifications,
+      };
+
+      return HttpResponse.json({ data: mockReservations[index] });
     }
-
-    mockReservations[index] = {
-      ...mockReservations[index],
-      notifications,
-    };
-
-    return HttpResponse.json({ data: mockReservations[index] });
-  }),
+  ),
 
   // POST /api/reservations/recurring - Create recurring reservation
   http.post('/api/reservations/recurring', async ({ request }) => {
-    const data = await request.json() as CreateReservationRequest;
-    
+    const data = (await request.json()) as CreateReservationRequest;
+
     // Validate request
     const errors = validateCreateReservation(data);
     if (errors.length > 0) {
@@ -245,7 +279,8 @@ export const reservationHandlers = [
         notes: data.notes,
         status: 'pending',
         reservationDate: new Date().toISOString(),
-        notifications: data.notifications || createMockNotificationPreferences(),
+        notifications:
+          data.notifications || createMockNotificationPreferences(),
         recurrence: data.recurrence,
         history: [createMockHistoryEntry('pending')],
       })
@@ -257,7 +292,9 @@ export const reservationHandlers = [
 
   // GET /api/reservations/overdue - Get overdue reservations
   http.get('/api/reservations/overdue', () => {
-    const overdueReservations = mockReservations.filter((r) => r.status === 'overdue');
+    const overdueReservations = mockReservations.filter(
+      (r) => r.status === 'overdue'
+    );
     return HttpResponse.json({
       data: overdueReservations,
       meta: {
@@ -268,7 +305,7 @@ export const reservationHandlers = [
 
   // PUT /api/reservations/:id/complete - Mark reservation as complete
   http.put('/api/reservations/:id/complete', async ({ params, request }) => {
-    const { returnDate } = await request.json() as { returnDate: string };
+    const { returnDate } = (await request.json()) as { returnDate: string };
     const index = mockReservations.findIndex((r) => r.id === params.id);
     if (index === -1) {
       return new HttpResponse(null, { status: 404 });
@@ -293,7 +330,7 @@ export const reservationHandlers = [
 
   // PUT /api/reservations/:id/extend - Extend reservation
   http.put('/api/reservations/:id/extend', async ({ params, request }) => {
-    const { returnDate } = await request.json() as { returnDate: string };
+    const { returnDate } = (await request.json()) as { returnDate: string };
     const index = mockReservations.findIndex((r) => r.id === params.id);
     if (index === -1) {
       return new HttpResponse(null, { status: 404 });

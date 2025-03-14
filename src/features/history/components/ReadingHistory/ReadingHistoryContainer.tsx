@@ -16,7 +16,11 @@ export function ReadingHistoryContainer() {
   const updateTags = useUpdateTags();
   const deleteEntry = useDeleteReadingHistoryEntry();
 
-  const handleUpdateProgress = (id: string, currentPage: number, notes?: string) => {
+  const handleUpdateProgress = (
+    id: string,
+    currentPage: number,
+    notes?: string
+  ) => {
     updateProgress.mutate({
       id,
       progress: {
@@ -44,7 +48,11 @@ export function ReadingHistoryContainer() {
   };
 
   const handleDeleteEntry = (id: string) => {
-    if (window.confirm('Are you sure you want to delete this reading history entry?')) {
+    if (
+      window.confirm(
+        'Are you sure you want to delete this reading history entry?'
+      )
+    ) {
       deleteEntry.mutate(id);
     }
   };
@@ -52,24 +60,26 @@ export function ReadingHistoryContainer() {
   const isLoading = isHistoryLoading || isStatsLoading;
 
   if (!history?.data || !stats?.data) {
-    return <ReadingHistory
-      history={[]}
-      stats={{
-        totalBooksRead: 0,
-        booksThisYear: 0,
-        booksThisMonth: 0,
-        averageRating: 0,
-        pagesRead: 0,
-        readingStreak: 0,
-        favoriteGenres: [],
-        readingByMonth: [],
-      }}
-      isLoading={isLoading}
-      onUpdateProgress={handleUpdateProgress}
-      onAddReview={handleAddReview}
-      onUpdateTags={handleUpdateTags}
-      onDeleteEntry={handleDeleteEntry}
-    />;
+    return (
+      <ReadingHistory
+        history={[]}
+        stats={{
+          totalBooksRead: 0,
+          booksThisYear: 0,
+          booksThisMonth: 0,
+          averageRating: 0,
+          pagesRead: 0,
+          readingStreak: 0,
+          favoriteGenres: [],
+          readingByMonth: [],
+        }}
+        isLoading={isLoading}
+        onUpdateProgress={handleUpdateProgress}
+        onAddReview={handleAddReview}
+        onUpdateTags={handleUpdateTags}
+        onDeleteEntry={handleDeleteEntry}
+      />
+    );
   }
 
   return (

@@ -86,7 +86,9 @@ describe('ReservationList', () => {
     const cancelButton = screen.getByText('Cancel');
     fireEvent.click(cancelButton);
 
-    expect(mockOnCancelReservation).toHaveBeenCalledWith(mockActiveReservation.id);
+    expect(mockOnCancelReservation).toHaveBeenCalledWith(
+      mockActiveReservation.id
+    );
   });
 
   it('handles reservation confirmation', () => {
@@ -101,7 +103,10 @@ describe('ReservationList', () => {
     const confirmButton = screen.getByText('Confirm');
     fireEvent.click(confirmButton);
 
-    expect(mockOnUpdateReservation).toHaveBeenCalledWith(mockActiveReservation.id, 'confirmed');
+    expect(mockOnUpdateReservation).toHaveBeenCalledWith(
+      mockActiveReservation.id,
+      'confirmed'
+    );
   });
 
   it('displays reservation notes when available', () => {

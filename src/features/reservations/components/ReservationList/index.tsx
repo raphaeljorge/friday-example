@@ -1,9 +1,9 @@
-import type { Reservation } from '../../types'
+import type { Reservation } from '../../types';
 
 interface ReservationListProps {
-  reservations: Reservation[]
-  onCancelReservation: (id: string) => void
-  onUpdateReservation: (id: string, status: 'confirmed' | 'cancelled') => void
+  reservations: Reservation[];
+  onCancelReservation: (id: string) => void;
+  onUpdateReservation: (id: string, status: 'confirmed' | 'cancelled') => void;
 }
 
 export function ReservationList({
@@ -13,10 +13,10 @@ export function ReservationList({
 }: ReservationListProps) {
   const activeReservations = reservations.filter(
     (res) => res.status === 'pending' || res.status === 'confirmed'
-  )
+  );
   const pastReservations = reservations.filter(
     (res) => res.status === 'cancelled'
-  )
+  );
 
   return (
     <div className="space-y-6">
@@ -28,7 +28,7 @@ export function ReservationList({
             {activeReservations.length} active
           </div>
         </div>
-        
+
         <div className="border rounded-lg divide-y">
           {activeReservations.length === 0 ? (
             <div className="p-4">
@@ -41,7 +41,9 @@ export function ReservationList({
                 className="p-4 flex items-center justify-between"
               >
                 <div className="space-y-1">
-                  <div className="font-medium">Pickup: {reservation.pickupDate}</div>
+                  <div className="font-medium">
+                    Pickup: {reservation.pickupDate}
+                  </div>
                   <div className="text-sm text-gray-500">
                     Status: {reservation.status}
                   </div>
@@ -54,7 +56,9 @@ export function ReservationList({
                 <div className="space-x-2">
                   {reservation.status === 'pending' && (
                     <button
-                      onClick={() => onUpdateReservation(reservation.id, 'confirmed')}
+                      onClick={() =>
+                        onUpdateReservation(reservation.id, 'confirmed')
+                      }
                       className="px-3 py-1 text-sm bg-green-100 text-green-700 rounded-md hover:bg-green-200"
                     >
                       Confirm
@@ -81,7 +85,7 @@ export function ReservationList({
             {pastReservations.length} past
           </div>
         </div>
-        
+
         <div className="border rounded-lg divide-y">
           {pastReservations.length === 0 ? (
             <div className="p-4">
@@ -94,7 +98,9 @@ export function ReservationList({
                 className="p-4 flex items-center justify-between"
               >
                 <div className="space-y-1">
-                  <div className="font-medium">Pickup: {reservation.pickupDate}</div>
+                  <div className="font-medium">
+                    Pickup: {reservation.pickupDate}
+                  </div>
                   <div className="text-sm text-gray-500">
                     Status: {reservation.status}
                   </div>
@@ -110,5 +116,5 @@ export function ReservationList({
         </div>
       </div>
     </div>
-  )
+  );
 }

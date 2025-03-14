@@ -12,7 +12,7 @@ import type { UseQueryResult } from '@tanstack/react-query';
 vi.mock('../../hooks/useShelf', () => ({
   useShelves: vi.fn(),
   useCreateShelf: vi.fn().mockReturnValue({ mutate: vi.fn() }),
-  useDeleteShelf: vi.fn().mockReturnValue({ mutate: vi.fn() })
+  useDeleteShelf: vi.fn().mockReturnValue({ mutate: vi.fn() }),
 }));
 
 const createSuccessQueryResult = <T,>(data: T) => ({
@@ -40,7 +40,7 @@ const createSuccessQueryResult = <T,>(data: T) => ({
   refetch: vi.fn(),
   status: 'success' as const,
   fetchStatus: 'idle' as const,
-  promise: Promise.resolve(data)
+  promise: Promise.resolve(data),
 });
 
 const createLoadingQueryResult = <T,>() => ({
@@ -68,7 +68,7 @@ const createLoadingQueryResult = <T,>() => ({
   refetch: vi.fn(),
   status: 'pending' as const,
   fetchStatus: 'fetching' as const,
-  promise: Promise.resolve({} as T)
+  promise: Promise.resolve({} as T),
 });
 
 describe('ShelfContainer', () => {
@@ -77,11 +77,11 @@ describe('ShelfContainer', () => {
     vi.mocked(useShelves).mockReturnValue(loadingResult);
 
     renderWithProviders(<ShelfContainer />);
-    
+
     // Check for loading skeleton elements
     const skeletonElements = document.querySelectorAll('.animate-pulse');
     expect(skeletonElements.length).toBeGreaterThan(0);
-    
+
     // Check for specific skeleton structure
     expect(document.querySelector('.h-8.bg-gray-200')).toBeInTheDocument();
     expect(document.querySelectorAll('.h-24.bg-gray-200').length).toBe(3);
@@ -98,7 +98,7 @@ describe('ShelfContainer', () => {
           createdAt: '2024-01-01',
           updatedAt: '2024-01-02',
         },
-      ]
+      ],
     };
 
     const successResult = createSuccessQueryResult(mockData);

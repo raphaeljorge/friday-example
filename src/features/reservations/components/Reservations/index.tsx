@@ -1,39 +1,46 @@
-import { Suspense } from 'react'
-import { ReservationList } from '../ReservationList'
-import { useCancelReservation, useReservations, useUpdateReservation } from '../../hooks/useReservations'
+import { Suspense } from 'react';
+import { ReservationList } from '../ReservationList';
+import {
+  useCancelReservation,
+  useReservations,
+  useUpdateReservation,
+} from '../../hooks/useReservations';
 
 export default function Reservations() {
-  const { data, isLoading, error } = useReservations()
-  const cancelReservation = useCancelReservation()
-  const updateReservation = useUpdateReservation()
+  const { data, isLoading, error } = useReservations();
+  const cancelReservation = useCancelReservation();
+  const updateReservation = useUpdateReservation();
 
   const handleCancelReservation = async (id: string) => {
     try {
-      await cancelReservation.mutateAsync(id)
+      await cancelReservation.mutateAsync(id);
     } catch (err) {
-      console.error('Failed to cancel reservation:', err)
+      console.error('Failed to cancel reservation:', err);
       // Here you would typically show a toast notification
     }
-  }
+  };
 
-  const handleUpdateReservation = async (id: string, status: 'confirmed' | 'cancelled') => {
+  const handleUpdateReservation = async (
+    id: string,
+    status: 'confirmed' | 'cancelled'
+  ) => {
     try {
       await updateReservation.mutateAsync({
         id,
-        status
-      })
+        status,
+      });
     } catch (err) {
-      console.error('Failed to update reservation:', err)
+      console.error('Failed to update reservation:', err);
       // Here you would typically show a toast notification
     }
-  }
+  };
 
   if (error) {
     return (
       <div className="p-4 bg-red-50 text-red-700 rounded-lg">
         Error loading reservations. Please try again later.
       </div>
-    )
+    );
   }
 
   return (
@@ -60,5 +67,5 @@ export default function Reservations() {
         </div>
       </Suspense>
     </div>
-  )
+  );
 }

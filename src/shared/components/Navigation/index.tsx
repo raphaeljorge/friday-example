@@ -1,4 +1,4 @@
-import { Link } from '@tanstack/react-router'
+import { Link } from '@tanstack/react-router';
 
 export function Navigation() {
   return (
@@ -37,5 +37,5 @@ export function Navigation() {
         </div>
       </div>
     </nav>
-  )
+  );
 }

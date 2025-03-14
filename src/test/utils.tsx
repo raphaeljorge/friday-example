@@ -26,9 +26,7 @@ export function renderWithProviders(
   function Wrapper({ children }: { children: React.ReactNode }) {
     return (
       <QueryClientProvider client={queryClient}>
-        <TestRouterProvider>
-          {children}
-        </TestRouterProvider>
+        <TestRouterProvider>{children}</TestRouterProvider>
       </QueryClientProvider>
     );
   }

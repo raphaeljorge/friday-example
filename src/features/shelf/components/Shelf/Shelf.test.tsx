@@ -67,7 +67,9 @@ describe('Shelf', () => {
 
     // Check for skeleton loading elements
     expect(document.querySelector('.animate-pulse')).toBeInTheDocument();
-    expect(document.querySelectorAll('.h-24.bg-gray-200.rounded')).toHaveLength(3);
+    expect(document.querySelectorAll('.h-24.bg-gray-200.rounded')).toHaveLength(
+      3
+    );
   });
 
   it('renders empty state when no shelves', () => {
@@ -81,13 +83,17 @@ describe('Shelf', () => {
       { initialPath: '/shelf' }
     );
 
-    expect(screen.getByText('No shelves created yet. Click "Create New Shelf" to get started.')).toBeInTheDocument();
+    expect(
+      screen.getByText(
+        'No shelves created yet. Click "Create New Shelf" to get started.'
+      )
+    ).toBeInTheDocument();
   });
 
   it('calls onCreateShelf when create button is clicked', async () => {
     const name = 'New Shelf';
     const description = 'New Description';
-    
+
     // Mock window.prompt
     vi.spyOn(window, 'prompt')
       .mockImplementationOnce(() => name)

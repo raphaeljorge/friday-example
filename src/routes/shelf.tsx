@@ -1,7 +1,7 @@
-import { createFileRoute } from '@tanstack/react-router'
-import { lazy, Suspense } from 'react'
+import { createFileRoute } from '@tanstack/react-router';
+import { lazy, Suspense } from 'react';
 
-const Shelf = lazy(() => import('@/features/shelf/components/Shelf'))
+const Shelf = lazy(() => import('@/features/shelf/components/Shelf'));
 
 const LoadingFallback = () => (
   <div className="animate-pulse space-y-4">
@@ -12,12 +12,12 @@ const LoadingFallback = () => (
       <div className="h-24 bg-gray-200 rounded"></div>
     </div>
   </div>
-)
+);
 
 export const Route = createFileRoute('/shelf')({
   component: () => (
     <Suspense fallback={<LoadingFallback />}>
       <Shelf />
     </Suspense>
-  )
-})
+  ),
+});

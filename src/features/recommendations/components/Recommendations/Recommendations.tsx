@@ -1,11 +1,17 @@
 import { BookCard } from '@/features/books/components/BookCard';
 import { usePreferencesStore } from '../../store/preferencesStore';
-import type { RecommendationGroup, DismissRecommendationRequest } from '../../types';
+import type {
+  RecommendationGroup,
+  DismissRecommendationRequest,
+} from '../../types';
 
 interface RecommendationsProps {
   groups: RecommendationGroup[];
   isLoading: boolean;
-  onDismiss: (recommendationId: string, request: DismissRecommendationRequest) => void;
+  onDismiss: (
+    recommendationId: string,
+    request: DismissRecommendationRequest
+  ) => void;
   onRefresh: () => void;
 }
 
@@ -87,7 +93,9 @@ export function Recommendations({
         {/* Filters */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div>
-            <h3 className="text-sm font-medium text-gray-700 mb-2">Minimum Score</h3>
+            <h3 className="text-sm font-medium text-gray-700 mb-2">
+              Minimum Score
+            </h3>
             <input
               type="range"
               min="0"
@@ -97,7 +105,9 @@ export function Recommendations({
               onChange={(e) => setMinScore(Number(e.target.value))}
               className="w-full"
             />
-            <div className="text-sm text-gray-600 mt-1">{(minScore * 100).toFixed(0)}%</div>
+            <div className="text-sm text-gray-600 mt-1">
+              {(minScore * 100).toFixed(0)}%
+            </div>
           </div>
 
           <div>
@@ -118,7 +128,9 @@ export function Recommendations({
         {/* Exclusions */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
           <div>
-            <h3 className="text-sm font-medium text-gray-700 mb-2">Excluded Categories</h3>
+            <h3 className="text-sm font-medium text-gray-700 mb-2">
+              Excluded Categories
+            </h3>
             <div className="flex flex-wrap gap-2">
               {excludedCategories.map((category) => (
                 <span
@@ -147,7 +159,9 @@ export function Recommendations({
           </div>
 
           <div>
-            <h3 className="text-sm font-medium text-gray-700 mb-2">Excluded Authors</h3>
+            <h3 className="text-sm font-medium text-gray-700 mb-2">
+              Excluded Authors
+            </h3>
             <div className="flex flex-wrap gap-2">
               {excludedAuthors.map((author) => (
                 <span
@@ -199,7 +213,8 @@ export function Recommendations({
                       );
                       if (!reasonInput) return;
 
-                      const reason = reasonInput as DismissRecommendationRequest['reason'];
+                      const reason =
+                        reasonInput as DismissRecommendationRequest['reason'];
                       const noteInput = prompt('Any additional notes?');
                       const note = noteInput || undefined;
 
@@ -210,7 +225,9 @@ export function Recommendations({
                   </button>
                 </div>
                 <div className="mt-2">
-                  <div className="text-sm text-gray-600">{recommendation.reason}</div>
+                  <div className="text-sm text-gray-600">
+                    {recommendation.reason}
+                  </div>
                   <div className="text-xs text-gray-500">
                     Score: {(recommendation.score * 100).toFixed(0)}%
                   </div>
@@ -229,7 +246,8 @@ export function Recommendations({
 
       {groups.length === 0 && (
         <div className="text-center py-12 text-gray-500">
-          No recommendations available. Try adjusting your preferences or refreshing.
+          No recommendations available. Try adjusting your preferences or
+          refreshing.
         </div>
       )}
     </div>

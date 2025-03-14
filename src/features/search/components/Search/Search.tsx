@@ -1,9 +1,19 @@
 import { useState } from 'react';
-import { useSearchBooks, useCategories, useTags } from '@/features/books/api/books';
+import {
+  useSearchBooks,
+  useCategories,
+  useTags,
+} from '@/features/books/api/books';
 import { BookGrid } from '@/features/books/components/BookGrid';
 import { useSearchStore } from '../../store/searchStore';
 import { useDebounce } from '../../hooks/useDebounce';
-import type { BookStatus, SearchBooksParams, DateRange, SortField, SortOrder } from '@/features/books/types';
+import type {
+  BookStatus,
+  SearchBooksParams,
+  DateRange,
+  SortField,
+  SortOrder,
+} from '@/features/books/types';
 
 const sortOptions: { value: SortField; label: string }[] = [
   { value: 'title', label: 'Title' },
@@ -27,7 +37,11 @@ export function Search() {
   const debouncedParams = useDebounce(searchParams, 300);
   const { data: categories } = useCategories();
   const { data: tags } = useTags();
-  const { data: searchResults, isLoading, error } = useSearchBooks(debouncedParams);
+  const {
+    data: searchResults,
+    isLoading,
+    error,
+  } = useSearchBooks(debouncedParams);
   const { history, addToHistory } = useSearchStore();
 
   const handleSearch = (e: React.FormEvent) => {
@@ -71,7 +85,10 @@ export function Search() {
         <form onSubmit={handleSearch} className="space-y-6">
           {/* Search input */}
           <div>
-            <label htmlFor="search" className="block text-sm font-medium text-gray-700">
+            <label
+              htmlFor="search"
+              className="block text-sm font-medium text-gray-700"
+            >
               Search
             </label>
             <input
@@ -80,21 +97,31 @@ export function Search() {
               placeholder="Search by title, author, or description..."
               className="mt-1 w-full px-4 py-2 border rounded-md"
               value={searchParams.q}
-              onChange={(e) => setSearchParams((prev) => ({ ...prev, q: e.target.value }))}
+              onChange={(e) =>
+                setSearchParams((prev) => ({ ...prev, q: e.target.value }))
+              }
             />
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
             {/* Category filter */}
             <div>
-              <label htmlFor="category" className="block text-sm font-medium text-gray-700">
+              <label
+                htmlFor="category"
+                className="block text-sm font-medium text-gray-700"
+              >
                 Category
               </label>
               <select
                 id="category"
                 className="mt-1 w-full px-4 py-2 border rounded-md"
                 value={searchParams.category}
-                onChange={(e) => setSearchParams((prev) => ({ ...prev, category: e.target.value }))}
+                onChange={(e) =>
+                  setSearchParams((prev) => ({
+                    ...prev,
+                    category: e.target.value,
+                  }))
+                }
               >
                 <option value="">All Categories</option>
                 {categories?.data.map((category) => (
@@ -107,7 +134,10 @@ export function Search() {
 
             {/* Status filter */}
             <div>
-              <label htmlFor="status" className="block text-sm font-medium text-gray-700">
+              <label
+                htmlFor="status"
+                className="block text-sm font-medium text-gray-700"
+              >
                 Status
               </label>
               <select
@@ -125,7 +155,10 @@ export function Search() {
 
             {/* Rating filter */}
             <div>
-              <label htmlFor="rating" className="block text-sm font-medium text-gray-700">
+              <label
+                htmlFor="rating"
+                className="block text-sm font-medium text-gray-700"
+              >
                 Minimum Rating
               </label>
               <select
@@ -152,7 +185,10 @@ export function Search() {
           {/* Date range */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
-              <label htmlFor="dateFrom" className="block text-sm font-medium text-gray-700">
+              <label
+                htmlFor="dateFrom"
+                className="block text-sm font-medium text-gray-700"
+              >
                 Published From
               </label>
               <input
@@ -160,11 +196,16 @@ export function Search() {
                 type="date"
                 className="mt-1 w-full px-4 py-2 border rounded-md"
                 value={searchParams.publishedDate?.from || ''}
-                onChange={(e) => handleDateRangeChange({ from: e.target.value })}
+                onChange={(e) =>
+                  handleDateRangeChange({ from: e.target.value })
+                }
               />
             </div>
             <div>
-              <label htmlFor="dateTo" className="block text-sm font-medium text-gray-700">
+              <label
+                htmlFor="dateTo"
+                className="block text-sm font-medium text-gray-700"
+              >
                 Published To
               </label>
               <input
@@ -179,7 +220,9 @@ export function Search() {
 
           {/* Tags */}
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">Tags</label>
+            <label className="block text-sm font-medium text-gray-700 mb-2">
+              Tags
+            </label>
             <div className="flex flex-wrap gap-2">
               {tags?.data.map((tag) => (
                 <button
@@ -201,7 +244,10 @@ export function Search() {
           {/* Sort options */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
-              <label htmlFor="sortBy" className="block text-sm font-medium text-gray-700">
+              <label
+                htmlFor="sortBy"
+                className="block text-sm font-medium text-gray-700"
+              >
                 Sort By
               </label>
               <select
@@ -209,7 +255,10 @@ export function Search() {
                 className="mt-1 w-full px-4 py-2 border rounded-md"
                 value={searchParams.sortBy}
                 onChange={(e) =>
-                  setSearchParams((prev) => ({ ...prev, sortBy: e.target.value as SortField }))
+                  setSearchParams((prev) => ({
+                    ...prev,
+                    sortBy: e.target.value as SortField,
+                  }))
                 }
               >
                 {sortOptions.map((option) => (
@@ -220,7 +269,10 @@ export function Search() {
               </select>
             </div>
             <div>
-              <label htmlFor="sortOrder" className="block text-sm font-medium text-gray-700">
+              <label
+                htmlFor="sortOrder"
+                className="block text-sm font-medium text-gray-700"
+              >
                 Sort Order
               </label>
               <select
@@ -228,7 +280,10 @@ export function Search() {
                 className="mt-1 w-full px-4 py-2 border rounded-md"
                 value={searchParams.sortOrder}
                 onChange={(e) =>
-                  setSearchParams((prev) => ({ ...prev, sortOrder: e.target.value as SortOrder }))
+                  setSearchParams((prev) => ({
+                    ...prev,
+                    sortOrder: e.target.value as SortOrder,
+                  }))
                 }
               >
                 <option value="asc">Ascending</option>
@@ -257,7 +312,8 @@ export function Search() {
                       {item.query.category && `in ${item.query.category}`}
                     </span>
                     <span className="text-xs text-gray-500 block">
-                      {new Date(item.timestamp).toLocaleDateString()} • {item.resultCount} results
+                      {new Date(item.timestamp).toLocaleDateString()} •{' '}
+                      {item.resultCount} results
                     </span>
                   </button>
                 </div>

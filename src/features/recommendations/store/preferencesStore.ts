@@ -16,7 +16,7 @@ interface PreferencesStore {
   maxRecommendations: number;
   excludedCategories: string[];
   excludedAuthors: string[];
-  
+
   // Dismissed recommendations history
   dismissedRecommendations: DismissedRecommendation[];
 
@@ -84,7 +84,9 @@ export const usePreferencesStore = create<PreferencesStore>()(
 
       removeExcludedCategory: (category) =>
         set((state) => ({
-          excludedCategories: state.excludedCategories.filter((c) => c !== category),
+          excludedCategories: state.excludedCategories.filter(
+            (c) => c !== category
+          ),
         })),
 
       addExcludedAuthor: (author) =>

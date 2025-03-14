@@ -58,7 +58,7 @@ describe('UserProfileContainer', () => {
       isInitialLoading: true,
       isPaused: false,
       refetch: vi.fn(),
-      promise: Promise.resolve(undefined)
+      promise: Promise.resolve(undefined),
     } as unknown as UseQueryResult<UserResponse, Error>);
 
     renderWithProviders(<UserProfileContainer />, { initialPath: '/profile' });
@@ -91,12 +91,14 @@ describe('UserProfileContainer', () => {
       isInitialLoading: false,
       isPaused: false,
       refetch: vi.fn(),
-      promise: Promise.resolve({ data: { data: mockUserProfile } })
+      promise: Promise.resolve({ data: { data: mockUserProfile } }),
     } as unknown as UseQueryResult<UserResponse, Error>);
 
     renderWithProviders(<UserProfileContainer />, { initialPath: '/profile' });
     expect(screen.getByTestId('user-name')).toHaveTextContent('Test User');
-    expect(screen.getByTestId('user-email')).toHaveTextContent('test@example.com');
+    expect(screen.getByTestId('user-email')).toHaveTextContent(
+      'test@example.com'
+    );
   });
 
   it('renders error state', async () => {
@@ -130,11 +132,13 @@ describe('UserProfileContainer', () => {
       isInitialLoading: false,
       isPaused: false,
       refetch: vi.fn(),
-      promise: errorPromise
+      promise: errorPromise,
     } as unknown as UseQueryResult<UserResponse, Error>);
 
     renderWithProviders(<UserProfileContainer />, { initialPath: '/profile' });
     const errorElement = await screen.findByRole('alert');
-    expect(errorElement).toHaveTextContent('Error loading profile. Please try again later.');
+    expect(errorElement).toHaveTextContent(
+      'Error loading profile. Please try again later.'
+    );
   });
 });

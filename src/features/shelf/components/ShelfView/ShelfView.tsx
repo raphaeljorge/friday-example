@@ -19,11 +19,14 @@ export function ShelfView({
   if (isLoading) {
     return (
       <div className="animate-pulse space-y-4" data-testid="loading-skeleton">
-        <div className="h-8 bg-gray-200 rounded w-1/4" data-testid="title-skeleton"></div>
+        <div
+          className="h-8 bg-gray-200 rounded w-1/4"
+          data-testid="title-skeleton"
+        ></div>
         <div className="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-8 gap-4">
           {[1, 2, 3].map((i) => (
-            <div 
-              key={i} 
+            <div
+              key={i}
               className="aspect-[2/3] bg-gray-200 rounded"
               data-testid="book-skeleton"
             ></div>
@@ -46,7 +49,10 @@ export function ShelfView({
           className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition-colors"
           onClick={() => {
             const name = prompt('Enter shelf name', shelf.name);
-            const description = prompt('Enter shelf description', shelf.description);
+            const description = prompt(
+              'Enter shelf description',
+              shelf.description
+            );
             if (name) {
               onUpdateShelf(name, description || undefined);
             }

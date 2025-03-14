@@ -14,7 +14,9 @@ interface Notification {
 interface NotificationStore {
   notifications: Notification[];
   unreadCount: number;
-  addNotification: (notification: Omit<Notification, 'id' | 'timestamp' | 'read'>) => void;
+  addNotification: (
+    notification: Omit<Notification, 'id' | 'timestamp' | 'read'>
+  ) => void;
   markAsRead: (id: string) => void;
   markAllAsRead: () => void;
   clearNotifications: () => void;
@@ -73,7 +75,8 @@ export const useNotificationStore = create<NotificationStore>()(
 
 // Helper functions for creating notification messages
 export const createNotificationMessage = {
-  confirmation: (title: string) => `Your reservation for "${title}" has been confirmed.`,
+  confirmation: (title: string) =>
+    `Your reservation for "${title}" has been confirmed.`,
   reminder: (title: string, daysUntil: number) =>
     `Reminder: Your reservation for "${title}" ${
       daysUntil === 0
@@ -84,7 +87,8 @@ export const createNotificationMessage = {
     `Your reservation for "${title}" is ${daysOverdue} ${
       daysOverdue === 1 ? 'day' : 'days'
     } overdue.`,
-  cancellation: (title: string) => `Your reservation for "${title}" has been cancelled.`,
+  cancellation: (title: string) =>
+    `Your reservation for "${title}" has been cancelled.`,
   waitlist: (title: string, position: number) =>
     `You are now #${position} on the waitlist for "${title}".`,
   available: (title: string) =>

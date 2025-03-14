@@ -13,10 +13,22 @@ export const createMockBook = (override?: Partial<Book>): Book => ({
   publishedDate: faker.date.past().toISOString(),
   publisher: faker.company.name(),
   categories: Array.from({ length: faker.number.int({ min: 1, max: 3 }) }, () =>
-    faker.helpers.arrayElement(['Fiction', 'Science', 'Technology', 'History', 'Arts'])
+    faker.helpers.arrayElement([
+      'Fiction',
+      'Science',
+      'Technology',
+      'History',
+      'Arts',
+    ])
   ),
   tags: Array.from({ length: faker.number.int({ min: 2, max: 5 }) }, () =>
-    faker.helpers.arrayElement(['bestseller', 'classic', 'new', 'award-winning', 'recommended'])
+    faker.helpers.arrayElement([
+      'bestseller',
+      'classic',
+      'new',
+      'award-winning',
+      'recommended',
+    ])
   ),
   status: faker.helpers.arrayElement(['available', 'reserved', 'borrowed']),
   copies: {
@@ -31,7 +43,9 @@ export const createMockBook = (override?: Partial<Book>): Book => ({
 const mockBooks: Book[] = Array.from({ length: 50 }, () => createMockBook());
 
 // Get unique categories from mock books
-const categories = Array.from(new Set(mockBooks.flatMap((book) => book.categories)));
+const categories = Array.from(
+  new Set(mockBooks.flatMap((book) => book.categories))
+);
 
 // Get unique tags from mock books
 const tags = Array.from(new Set(mockBooks.flatMap((book) => book.tags)));
@@ -60,7 +74,10 @@ const filterBooks = (books: Book[], params: SearchBooksParams) => {
     }
 
     // Tags filter
-    if (params.tags?.length && !params.tags.every((tag) => book.tags.includes(tag))) {
+    if (
+      params.tags?.length &&
+      !params.tags.every((tag) => book.tags.includes(tag))
+    ) {
       return false;
     }
 
@@ -68,8 +85,10 @@ const filterBooks = (books: Book[], params: SearchBooksParams) => {
     if (params.publishedDate) {
       const publishedDate = new Date(book.publishedDate);
       if (
-        (params.publishedDate.from && publishedDate < new Date(params.publishedDate.from)) ||
-        (params.publishedDate.to && publishedDate > new Date(params.publishedDate.to))
+        (params.publishedDate.from &&
+          publishedDate < new Date(params.publishedDate.from)) ||
+        (params.publishedDate.to &&
+          publishedDate > new Date(params.publishedDate.to))
       ) {
         return false;
       }
@@ -85,7 +104,11 @@ const filterBooks = (books: Book[], params: SearchBooksParams) => {
 };
 
 // Sort books based on parameters
-const sortBooks = (books: Book[], sortBy?: string, sortOrder: 'asc' | 'desc' = 'asc') => {
+const sortBooks = (
+  books: Book[],
+  sortBy?: string,
+  sortOrder: 'asc' | 'desc' = 'asc'
+) => {
   const sorted = [...books].sort((a, b) => {
     if (!sortBy) return 0;
 
@@ -98,7 +121,9 @@ const sortBooks = (books: Book[], sortBy?: string, sortOrder: 'asc' | 'desc' = '
         comparison = a.author.localeCompare(b.author);
         break;
       case 'publishedDate':
-        comparison = new Date(a.publishedDate).getTime() - new Date(b.publishedDate).getTime();
+        comparison =
+          new Date(a.publishedDate).getTime() -
+          new Date(b.publishedDate).getTime();
         break;
       case 'rating':
         comparison = (a.rating ?? 0) - (b.rating ?? 0);
@@ -154,12 +179,20 @@ export const bookHandlers = [
       rating: url.searchParams.get('rating')
         ? Number(url.searchParams.get('rating'))
         : undefined,
-      sortBy: (url.searchParams.get('sortBy') as SearchBooksParams['sortBy']) || undefined,
-      sortOrder: (url.searchParams.get('sortOrder') as SearchBooksParams['sortOrder']) || 'asc',
+      sortBy:
+        (url.searchParams.get('sortBy') as SearchBooksParams['sortBy']) ||
+        undefined,
+      sortOrder:
+        (url.searchParams.get('sortOrder') as SearchBooksParams['sortOrder']) ||
+        'asc',
     };
 
     let filteredBooks = filterBooks(mockBooks, searchParams);
-    filteredBooks = sortBooks(filteredBooks, searchParams.sortBy, searchParams.sortOrder);
+    filteredBooks = sortBooks(
+      filteredBooks,
+      searchParams.sortBy,
+      searchParams.sortOrder
+    );
 
     return HttpResponse.json({
       data: filteredBooks,

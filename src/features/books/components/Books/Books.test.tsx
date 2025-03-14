@@ -18,7 +18,7 @@ describe('Books', () => {
         meta: {
           total: 0,
           page: 1,
-          limit: 12
+          limit: 12,
         },
       },
       dataUpdatedAt: Date.now(),
@@ -50,21 +50,21 @@ describe('Books', () => {
           meta: {
             total: 0,
             page: 1,
-            limit: 12
-          }
-        }
-      })
+            limit: 12,
+          },
+        },
+      }),
     } as unknown as UseQueryResult<BooksResponse, Error>);
   });
 
   it('renders the component', () => {
     renderWithProviders(<Books />, { initialPath: '/' });
-    
+
     // Check header content
     const heading = screen.getByText('Library Books');
     expect(heading).toBeInTheDocument();
     expect(heading.tagName).toBe('H1');
-    
+
     expect(
       screen.getByText('Browse our collection of books available for borrowing')
     ).toBeInTheDocument();

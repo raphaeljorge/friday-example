@@ -15,8 +15,8 @@ vi.mock('@tanstack/react-router', async () => {
     ...actual,
     useParams: () => ({ bookId: '1' }),
     bookRoute: {
-      id: 'book-route'
-    }
+      id: 'book-route',
+    },
   };
 });
 
@@ -75,7 +75,7 @@ describe('BookDetails', () => {
       isInitialLoading: true,
       isPaused: false,
       refetch: vi.fn(),
-      promise: Promise.resolve(undefined)
+      promise: Promise.resolve(undefined),
     } as unknown as UseQueryResult<BookResponse, Error>);
 
     renderWithProviders(<BookDetails />, { initialPath: '/books/1' });
@@ -84,7 +84,7 @@ describe('BookDetails', () => {
 
   it('renders book details when data is available', () => {
     const mockResponse: BookResponse = {
-      data: mockBook
+      data: mockBook,
     };
 
     vi.mocked(useBook).mockReturnValue({
@@ -112,7 +112,7 @@ describe('BookDetails', () => {
       isInitialLoading: false,
       isPaused: false,
       refetch: vi.fn(),
-      promise: Promise.resolve(mockResponse)
+      promise: Promise.resolve(mockResponse),
     } as unknown as UseQueryResult<BookResponse, Error>);
 
     renderWithProviders(<BookDetails />, { initialPath: '/books/1' });
@@ -167,10 +167,12 @@ describe('BookDetails', () => {
       isInitialLoading: false,
       isPaused: false,
       refetch: vi.fn(),
-      promise: errorPromise
+      promise: errorPromise,
     } as unknown as UseQueryResult<BookResponse, Error>);
 
     renderWithProviders(<BookDetails />, { initialPath: '/books/1' });
-    expect(screen.getByText('Error loading book details. Please try again later.')).toBeInTheDocument();
+    expect(
+      screen.getByText('Error loading book details. Please try again later.')
+    ).toBeInTheDocument();
   });
 });

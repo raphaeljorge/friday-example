@@ -14,7 +14,8 @@ import type { Shelf, ShelfBook } from '../types';
 const shelfKeys = {
   all: ['shelves'] as const,
   lists: () => [...shelfKeys.all, 'list'] as const,
-  list: (filters: Record<string, unknown>) => [...shelfKeys.lists(), filters] as const,
+  list: (filters: Record<string, unknown>) =>
+    [...shelfKeys.lists(), filters] as const,
   details: () => [...shelfKeys.all, 'detail'] as const,
   detail: (id: string) => [...shelfKeys.details(), id] as const,
 };
@@ -48,7 +49,10 @@ export function useUpdateShelf() {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: ({ id, ...data }: { id: string } & Pick<Shelf, 'name' | 'description'>) =>
+    mutationFn: ({
+      id,
+      ...data
+    }: { id: string } & Pick<Shelf, 'name' | 'description'>) =>
       updateShelf(id, data),
     onSuccess: (_, { id }) => {
       queryClient.invalidateQueries({ queryKey: shelfKeys.detail(id) });
@@ -79,7 +83,8 @@ export function useAddBookToShelf() {
     }: {
       shelfId: string;
       bookId: string;
-    } & Pick<ShelfBook, 'status' | 'notes'>) => addBookToShelf(shelfId, bookId, data),
+    } & Pick<ShelfBook, 'status' | 'notes'>) =>
+      addBookToShelf(shelfId, bookId, data),
     onSuccess: (_, { shelfId }) => {
       queryClient.invalidateQueries({ queryKey: shelfKeys.detail(shelfId) });
     },
@@ -97,7 +102,8 @@ export function useUpdateBookInShelf() {
     }: {
       shelfId: string;
       bookId: string;
-    } & Pick<ShelfBook, 'status' | 'notes'>) => updateBookInShelf(shelfId, bookId, data),
+    } & Pick<ShelfBook, 'status' | 'notes'>) =>
+      updateBookInShelf(shelfId, bookId, data),
     onSuccess: (_, { shelfId }) => {
       queryClient.invalidateQueries({ queryKey: shelfKeys.detail(shelfId) });
     },

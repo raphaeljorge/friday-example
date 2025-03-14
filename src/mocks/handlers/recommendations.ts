@@ -28,48 +28,54 @@ const createMockRecommendationGroups = (): RecommendationGroup[] => [
     source: 'reading-history',
     title: 'Based on Your Reading History',
     description: 'Books similar to ones you have enjoyed',
-    recommendations: Array.from({ length: faker.number.int({ min: 3, max: 8 }) }, () =>
-      createMockRecommendation('reading-history', 'based-on-history')
+    recommendations: Array.from(
+      { length: faker.number.int({ min: 3, max: 8 }) },
+      () => createMockRecommendation('reading-history', 'based-on-history')
     ),
   },
   {
     source: 'favorite-genres',
     title: 'From Your Favorite Genres',
     description: 'Top picks in genres you love',
-    recommendations: Array.from({ length: faker.number.int({ min: 3, max: 8 }) }, () =>
-      createMockRecommendation('favorite-genres', 'similar-genre')
+    recommendations: Array.from(
+      { length: faker.number.int({ min: 3, max: 8 }) },
+      () => createMockRecommendation('favorite-genres', 'similar-genre')
     ),
   },
   {
     source: 'similar-books',
     title: 'Similar Books',
     description: 'Books similar to ones in your shelves',
-    recommendations: Array.from({ length: faker.number.int({ min: 3, max: 8 }) }, () =>
-      createMockRecommendation('similar-books', 'similar-author')
+    recommendations: Array.from(
+      { length: faker.number.int({ min: 3, max: 8 }) },
+      () => createMockRecommendation('similar-books', 'similar-author')
     ),
   },
   {
     source: 'popular',
     title: 'Popular in Your Categories',
     description: 'Trending in your preferred categories',
-    recommendations: Array.from({ length: faker.number.int({ min: 3, max: 8 }) }, () =>
-      createMockRecommendation('popular', 'popular-in-category')
+    recommendations: Array.from(
+      { length: faker.number.int({ min: 3, max: 8 }) },
+      () => createMockRecommendation('popular', 'popular-in-category')
     ),
   },
   {
     source: 'trending',
     title: 'Trending Now',
     description: 'Books gaining popularity',
-    recommendations: Array.from({ length: faker.number.int({ min: 3, max: 8 }) }, () =>
-      createMockRecommendation('trending', 'trending-now')
+    recommendations: Array.from(
+      { length: faker.number.int({ min: 3, max: 8 }) },
+      () => createMockRecommendation('trending', 'trending-now')
     ),
   },
   {
     source: 'new-releases',
     title: 'New Releases',
     description: 'Recently added to the library',
-    recommendations: Array.from({ length: faker.number.int({ min: 3, max: 8 }) }, () =>
-      createMockRecommendation('new-releases', 'new-in-category')
+    recommendations: Array.from(
+      { length: faker.number.int({ min: 3, max: 8 }) },
+      () => createMockRecommendation('new-releases', 'new-in-category')
     ),
   },
 ];
@@ -106,10 +112,14 @@ export const recommendationHandlers = [
           .filter((rec) => {
             // Apply preference filters
             if (rec.score < mockPreferences.minScore) return false;
-            if (mockPreferences.excludedCategories.some((cat) =>
-              rec.book.categories.includes(cat)
-            )) return false;
-            if (mockPreferences.excludedAuthors.includes(rec.book.author)) return false;
+            if (
+              mockPreferences.excludedCategories.some((cat) =>
+                rec.book.categories.includes(cat)
+              )
+            )
+              return false;
+            if (mockPreferences.excludedAuthors.includes(rec.book.author))
+              return false;
             return true;
           })
           .slice(0, mockPreferences.maxRecommendations),
@@ -141,7 +151,8 @@ export const recommendationHandlers = [
 
   // PUT /api/recommendations/preferences - Update preferences
   http.put('/api/recommendations/preferences', async ({ request }) => {
-    const updates = await request.json() as Partial<RecommendationPreferences>;
+    const updates =
+      (await request.json()) as Partial<RecommendationPreferences>;
     mockPreferences = {
       ...mockPreferences,
       ...updates,
@@ -159,7 +170,9 @@ export const recommendationHandlers = [
       source: group.source,
       title: group.title,
       description: group.description,
-      recommendations: group.recommendations.filter((rec) => rec.id !== params.id),
+      recommendations: group.recommendations.filter(
+        (rec) => rec.id !== params.id
+      ),
     }));
 
     return new HttpResponse(null, { status: 204 });

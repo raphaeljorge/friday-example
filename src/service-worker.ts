@@ -76,12 +76,14 @@ self.addEventListener('install', (event: ExtendableEvent) => {
 self.addEventListener('activate', (event: ExtendableEvent) => {
   const cacheNames = ['images', 'api-cache', 'static-resources'];
   event.waitUntil(
-    caches.keys().then((keys) =>
-      Promise.all(
-        keys
-          .filter((key) => !cacheNames.includes(key))
-          .map((key) => caches.delete(key))
+    caches
+      .keys()
+      .then((keys) =>
+        Promise.all(
+          keys
+            .filter((key) => !cacheNames.includes(key))
+            .map((key) => caches.delete(key))
+        )
       )
-    )
   );
 });

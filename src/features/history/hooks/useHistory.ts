@@ -10,14 +10,13 @@ import {
   addReview,
   updateTags,
 } from '../api/history';
-import type {
-  UpdateReadingHistoryRequest,
-} from '../types';
+import type { UpdateReadingHistoryRequest } from '../types';
 
 const historyKeys = {
   all: ['reading-history'] as const,
   lists: () => [...historyKeys.all, 'list'] as const,
-  list: (filters: Record<string, unknown>) => [...historyKeys.lists(), filters] as const,
+  list: (filters: Record<string, unknown>) =>
+    [...historyKeys.lists(), filters] as const,
   details: () => [...historyKeys.all, 'detail'] as const,
   detail: (id: string) => [...historyKeys.details(), id] as const,
   stats: () => [...historyKeys.all, 'stats'] as const,
@@ -53,7 +52,10 @@ export function useUpdateReadingHistoryEntry() {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: ({ id, ...data }: { id: string } & UpdateReadingHistoryRequest) =>
+    mutationFn: ({
+      id,
+      ...data
+    }: { id: string } & UpdateReadingHistoryRequest) =>
       updateReadingHistoryEntry(id, data),
     onSuccess: (_, { id }) => {
       queryClient.invalidateQueries({ queryKey: historyKeys.detail(id) });
@@ -86,7 +88,10 @@ export function useUpdateReadingProgress() {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: ({ id, progress }: { id: string; progress: { currentPage: number; notes?: string } }) =>
+    mutationFn: ({
+      id,
+      progress,
+    }: { id: string; progress: { currentPage: number; notes?: string } }) =>
       updateReadingProgress(id, progress),
     onSuccess: (_, { id }) => {
       queryClient.invalidateQueries({ queryKey: historyKeys.detail(id) });

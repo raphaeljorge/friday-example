@@ -1,5 +1,5 @@
-import { Outlet } from '@tanstack/react-router'
-import { Navigation } from '../Navigation'
+import { Outlet } from '@tanstack/react-router';
+import { Navigation } from '../Navigation';
 
 export function Layout() {
   return (
@@ -9,5 +9,5 @@ export function Layout() {
         <Outlet />
       </main>
     </div>
-  )
+  );
 }
